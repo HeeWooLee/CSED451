@@ -1,0 +1,39 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(499,5): warning MSB8004: Output 디렉터리가 슬래시로 끝나지 않습니다. Output 디렉터리의 적절한 평가를 허용하는 데 필요하므로 이 빌드 인스턴스에서 슬래시를 추가합니다.
+  소스.cpp
+C:\Users\dangn\Documents\2023 Spring\Graphics\source\OpenGL_test\OpenGL_test\Project1\소스.cpp(26,19): warning C4244: '초기화 중': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\dangn\Documents\2023 Spring\Graphics\source\OpenGL_test\OpenGL_test\Project1\소스.cpp(40,23): warning C4244: '초기화 중': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\dangn\Documents\2023 Spring\Graphics\source\OpenGL_test\OpenGL_test\Project1\소스.cpp(73,42): warning C4244: '+=': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\dangn\Documents\2023 Spring\Graphics\source\OpenGL_test\OpenGL_test\Project1\소스.cpp(79,42): warning C4244: '+=': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\dangn\Documents\2023 Spring\Graphics\source\OpenGL_test\OpenGL_test\Project1\소스.cpp(81,45): warning C4244: '인수': 'int'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Ty=GLfloat
+          ]
+C:\Users\dangn\Documents\2023 Spring\Graphics\source\OpenGL_test\OpenGL_test\Project1\소스.cpp(82,72): warning C4244: '인수': '_Ty'에서 'const unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Ty=GLfloat
+          ]
+C:\Users\dangn\Documents\2023 Spring\Graphics\source\OpenGL_test\OpenGL_test\Project1\소스.cpp(88,43): warning C4244: '+=': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\dangn\Documents\2023 Spring\Graphics\source\OpenGL_test\OpenGL_test\Project1\소스.cpp(90,31): warning C4244: '=': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\dangn\Documents\2023 Spring\Graphics\source\OpenGL_test\OpenGL_test\Project1\소스.cpp(189,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\dangn\Documents\2023 Spring\Graphics\source\OpenGL_test\OpenGL_test\Project1\소스.cpp(207,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\dangn\Documents\2023 Spring\Graphics\source\OpenGL_test\OpenGL_test\Project1\소스.cpp(222,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\dangn\Documents\2023 Spring\Graphics\source\OpenGL_test\OpenGL_test\Project1\소스.cpp(223,23): warning C4244: '초기화 중': '_Ty'에서 'GLuint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Ty=GLfloat
+          ]
+C:\Users\dangn\Documents\2023 Spring\Graphics\source\OpenGL_test\OpenGL_test\Project1\소스.cpp(233,31): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\dangn\Documents\2023 Spring\Graphics\source\OpenGL_test\OpenGL_test\Project1\소스.cpp(250,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\dangn\Documents\2023 Spring\Graphics\source\OpenGL_test\OpenGL_test\Project1\소스.cpp(257,37): warning C4244: '인수': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\dangn\Documents\2023 Spring\Graphics\source\OpenGL_test\OpenGL_test\Project1\소스.cpp(333,27): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\dangn\Documents\2023 Spring\Graphics\source\OpenGL_test\OpenGL_test\Project1\소스.cpp(353,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\dangn\Documents\2023 Spring\Graphics\source\OpenGL_test\OpenGL_test\Project1\소스.cpp(370,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\dangn\Documents\2023 Spring\Graphics\source\OpenGL_test\OpenGL_test\Project1\소스.cpp(371,23): warning C4244: '초기화 중': '_Ty'에서 'GLuint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Ty=GLfloat
+          ]
+C:\Users\dangn\Documents\2023 Spring\Graphics\source\OpenGL_test\OpenGL_test\Project1\소스.cpp(379,31): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  Project1.vcxproj -> C:\Users\dangn\Documents\2023 Spring\Graphics\source\OpenGL_test\OpenGL_test\Project1\bin\x86\Project1.exe
