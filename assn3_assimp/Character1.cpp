@@ -1,38 +1,5 @@
 #include "Character1.h"
-
-enum Body
-{
-    pelvis,
-    leftUpperLeg,
-    leftLowerLeg,
-    leftFoot,
-    rightUpperLeg,
-    rightLowerLeg,
-    rightFoot,
-    torso,
-    neck,
-    head,
-    leftUpperArm,
-    leftLowerArm,
-    leftHand,
-    rightUpperArm,
-    rightLowerArm,
-    rightHand,
-
-};
-Color pink = { 0.97f, 0.81f, 0.87f };
-Color salmon = { 0.97f, 0.83f, 0.81f };
-Color champagne = { 0.97f, 0.91f, 0.81f };
-Color lemon = { 0.95f, 0.97f, 0.81f };
-Color melon = { 0.87f, 0.97f, 0.81f };
-Color hotPink = { 1.0f, 0.0f, 0.45f };
-
-Color red = { 1.0f, 0.0f, 0.0f };
-Color green = { 0.0f, 1.0f, 0.0f };
-Color blue = { 0.0f, 0.0f, 1.0f };
-GLfloat unit = 0.5f;
-Position legScale = { 1 * unit, 4 * unit };
-int interval = 40;
+int interval = 100;
 
 Character::Character() {
     frame = 0;
@@ -42,7 +9,7 @@ Character::Character() {
     
 
     PosX =  -0.7f;
-    PosY = 0.5f;
+    PosY = 0.0f;
     jumpLimit = 1.0f;
     jumpSpeed = 0.01f;
     jumping = false;
@@ -51,123 +18,12 @@ Character::Character() {
     width = 0.5f;
     height = 0.9f;
 
-
-    // initialize character hierarchy
-    frames[0][pelvis] = { { 0.0f, 9 * unit }, 0.0f, {2 * unit , 1 * unit}, red, -1, -1 }; // pelvis
-    frames[0][leftUpperLeg] = { {  1 * unit, -2 * unit }, 45.0f, {1 * unit, 4 * unit}, hotPink,-1, -1 }; // left upper leg
-    frames[0][leftLowerLeg] = { { -1 * unit ,  -3 * unit }, -50.0f, {1 * unit, 4 * unit}, hotPink, -1, -1 }; // left lower leg
-    frames[0][leftFoot] = { {  1 * unit , -2 * unit }, 0.0f, {2 * unit , 1 * unit}, hotPink, -1, -1 }; // left foot
-    frames[0][rightUpperLeg] = { { 0.0f, -2 * unit }, 0.0f, {1 * unit, 4 * unit}, blue, -1, -1 }; // right upper leg
-    frames[0][rightLowerLeg] = { { 0.0f, -4 * unit }, 0.0f, {1 * unit, 4 * unit}, blue, -1, -1 }; // right lower leg
-    frames[0][rightFoot] = { { 1 * unit, -2 * unit }, 0.0f, {2 * unit , 1 * unit}, blue, -1, -1 }; // right foot
-    frames[0][torso] = { { 0.0f, 3 * unit }, 0.0f, {1.0f, 2.5f}, pink, -1, -1 }; // torso
-    frames[0][neck] = { { 0.0f, 3 * unit }, 0.0f, {0.4f, 0.5f}, salmon, -1, -1 }; // neck
-    frames[0][head] = { { 0.0f, 1 * unit }, 0.0f, {1.0f, 1.0f}, champagne, -1, -1 }; // head
-    frames[0][leftUpperArm] = { { -1 * unit, 1 * unit }, -30.0f, { 1 * unit, 1.5f}, pink, -1, -1 }; // left upper arm
-    frames[0][leftLowerArm] = { { 0.0f, -3 * unit }, 0.0f, {1 * unit, 1.5f}, pink, -1, -1 }; // left lower arm
-    frames[0][leftHand] = { { 0.0f, -1 * unit}, 0.0f, {1 * unit, 0.5f},lemon,  -1, -1 }; // left hand
-    frames[0][rightUpperArm] = { { 1 * unit, 1 * unit}, 30.0f, {1 * unit, 1.5f}, blue, -1, -1 }; // right upper arm
-    frames[0][rightLowerArm] = { { 0.0f, -3 * unit }, 0.0f, {1 * unit, 1.5f}, blue, -1, -1 }; // right lower arm
-    frames[0][rightHand] = { { 0.0f, -1 * unit }, 0.0f, {1 * unit, 0.5f}, lemon, -1, -1 }; // right hand
-
-
-    frames[1][pelvis] = { { 0.0f, 9 * unit }, 0.0f, {2 * unit , 1 * unit}, red, -1, -1 }; // pelvis
-    frames[1][leftUpperLeg] = { {  1 * unit, -2 * unit }, 30.0f, {1 * unit, 4 * unit}, hotPink,-1, -1 }; // left upper leg
-    frames[1][leftLowerLeg] = { { 0 * unit ,  -4 * unit }, 0, {1 * unit, 4 * unit}, hotPink, -1, -1 }; // left lower leg
-    frames[1][leftFoot] = { {  1 * unit , -2 * unit }, 0.0f, {2 * unit , 1 * unit}, hotPink, -1, -1 }; // left foot
-    frames[1][rightUpperLeg] = { { -1 * unit, -2 * unit }, -30.0f, {1 * unit, 4 * unit}, blue, -1, -1 }; // right upper leg
-    frames[1][rightLowerLeg] = { { 0.0f, -4 * unit }, 0, {1 * unit, 4 * unit}, blue, -1, -1 }; // right lower leg
-    frames[1][rightFoot] = { { 1 * unit, -2 * unit }, 0.0f, {2 * unit , 1 * unit}, blue, -1, -1 }; // right foot
-    frames[1][torso] = { { 0.0f, 3 * unit }, 0.0f, {1.0f, 2.5f}, pink, -1, -1 }; // torso
-    frames[1][neck] = { { 0.0f, 3 * unit }, 0.0f, {0.4f, 0.5f}, salmon, -1, -1 }; // neck
-    frames[1][head] = { { 0.0f, 1 * unit }, 0.0f, {1.0f, 1.0f}, champagne, -1, -1 }; // head
-    frames[1][leftUpperArm] = { { -1 * unit, 1 * unit }, -30.0f, { 1 * unit, 1.5f}, pink, -1, -1 }; // left upper arm
-    frames[1][leftLowerArm] = { { 0.5f * unit, -3 * unit }, 20.0f, {1 * unit, 1.5f}, pink, -1, -1 }; // left lower arm
-    frames[1][leftHand] = { { 0.0f, -1 * unit}, 0.0f, {1 * unit, 0.5f},lemon,  -1, -1 }; // left hand
-    frames[1][rightUpperArm] = { { 1 * unit, 1 * unit}, 30.0f, {1 * unit, 1.5f}, blue, -1, -1 }; // right upper arm
-    frames[1][rightLowerArm] = { { 0.5f * unit, -3 * unit }, 20.0f, {1 * unit, 1.5f}, blue, -1, -1 }; // right lower arm
-    frames[1][rightHand] = { { 0.0f, -1 * unit }, 0.0f, {1 * unit, 0.5f}, lemon, -1, -1 }; // right hand
-
-
-    frames[2][pelvis] = { { 0.0f, 9 * unit }, 0.0f, {2 * unit , 1 * unit}, red, -1, -1 }; // pelvis
-    frames[2][rightUpperLeg] = { {  1 * unit, -2 * unit }, 45.0f, {1 * unit, 4 * unit}, blue,-1, -1 }; // left upper leg
-    frames[2][rightLowerLeg] = { { -1 * unit ,  -3 * unit }, -50.0f, {1 * unit, 4 * unit}, blue, -1, -1 }; // left lower leg
-    frames[2][rightFoot] = { {  1 * unit , -2 * unit }, 0.0f, {2 * unit , 1 * unit}, blue, -1, -1 }; // left foot
-    frames[2][leftUpperLeg] = { { 0.0f, -2 * unit }, 0.0f, {1 * unit, 4 * unit}, hotPink, -1, -1 }; // right upper leg
-    frames[2][leftLowerLeg] = { { 0.0f, -4 * unit }, 0.0f, {1 * unit, 4 * unit}, hotPink, -1, -1 }; // right lower leg
-    frames[2][leftFoot] = { { 1 * unit, -2 * unit }, 0.0f, {2 * unit , 1 * unit}, hotPink, -1, -1 }; // right foot
-    frames[2][torso] = { { 0.0f, 3 * unit }, 0.0f, {1.0f, 2.5f}, pink, -1, -1 }; // torso
-    frames[2][neck] = { { 0.0f, 3 * unit }, 0.0f, {0.4f, 0.5f}, salmon, -1, -1 }; // neck
-    frames[2][head] = { { 0.0f, 1 * unit }, 0.0f, {1.0f, 1.0f}, champagne, -1, -1 }; // head
-    frames[2][rightUpperArm] = { { -1 * unit, 1 * unit }, -30.0f, { 1 * unit, 1.5f}, blue, -1, -1 }; // left upper arm
-    frames[2][rightLowerArm] = { { 0.0f, -3 * unit }, 0.0f, {1 * unit, 1.5f}, blue, -1, -1 }; // left lower arm
-    frames[2][rightHand] = { { 0.0f, -1 * unit}, 0.0f, {1 * unit, 0.5f},lemon,  -1, -1 }; // left hand
-    frames[2][leftUpperArm] = { { 1 * unit, 1 * unit}, 30.0f, {1 * unit, 1.5f}, pink, -1, -1 }; // right upper arm
-    frames[2][leftLowerArm] = { { 0.0f, -3 * unit }, 0.0f, {1 * unit, 1.5f}, pink, -1, -1 }; // right lower arm
-    frames[2][leftHand] = { { 0.0f, -1 * unit }, 0.0f, {1 * unit, 0.5f}, lemon, -1, -1 }; // right hand
-    
-    frames[3][pelvis] = { { 0.0f, 9 * unit }, 0.0f, {2 * unit , 1 * unit}, red, -1, -1 }; // pelvis
-    frames[3][rightUpperLeg] = { {  1 * unit, -2 * unit }, 30.0f, {1 * unit, 4 * unit}, blue,-1, -1 }; // left upper leg
-    frames[3][rightLowerLeg] = { { 0 * unit ,  -4 * unit }, 0, {1 * unit, 4 * unit}, blue, -1, -1 }; // left lower leg
-    frames[3][rightFoot] = { {  1 * unit , -2 * unit }, 0.0f, {2 * unit , 1 * unit}, blue, -1, -1 }; // left foot
-    frames[3][leftUpperLeg] = { { -1 * unit, -2 * unit }, -30.0f, {1 * unit, 4 * unit}, hotPink, -1, -1 }; // right upper leg
-    frames[3][leftLowerLeg] = { { 0.0f, -4 * unit }, 0, {1 * unit, 4 * unit}, hotPink, -1, -1 }; // right lower leg
-    frames[3][leftFoot] = { { 1 * unit, -2 * unit }, 0.0f, {2 * unit , 1 * unit}, hotPink, -1, -1 }; // right foot
-    frames[3][torso] = { { 0.0f, 3 * unit }, 0.0f, {1.0f, 2.5f}, pink, -1, -1 }; // torso
-    frames[3][neck] = { { 0.0f, 3 * unit }, 0.0f, {0.4f, 0.5f}, salmon, -1, -1 }; // neck
-    frames[3][head] = { { 0.0f, 1 * unit }, 0.0f, {1.0f, 1.0f}, champagne, -1, -1 }; // head
-    frames[3][rightUpperArm] = { { -1 * unit, 1 * unit }, -30.0f, { 1 * unit, 1.5f}, blue, -1, -1 }; // left upper arm
-    frames[3][rightLowerArm] = { { 0.5f * unit, -3 * unit }, 20.0f, {1 * unit, 1.5f}, blue, -1, -1 }; // left lower arm
-    frames[3][rightHand] = { { 0.0f, -1 * unit}, 0.0f, {1 * unit, 0.5f},lemon,  -1, -1 }; // left hand
-    frames[3][leftUpperArm] = { { 1 * unit, 1 * unit}, 30.0f, {1 * unit, 1.5f}, pink, -1, -1 }; // right upper arm
-    frames[3][leftLowerArm] = { { 0.5f * unit, -3 * unit }, 20.0f, {1 * unit, 1.5f}, pink, -1, -1 }; // right lower arm
-    frames[3][leftHand] = { { 0.0f, -1 * unit }, 0.0f, {1 * unit, 0.5f}, lemon, -1, -1 }; // right hand
-    
-    frames[4][pelvis] = { { 0.0f, 9 * unit }, 0.0f, {2 * unit , 1 * unit}, red, -1, -1 }; // pelvis
-    frames[4][rightUpperLeg] = { {  1 * unit, -2 * unit }, 30.0f, {1 * unit, 4 * unit}, blue,-1, -1 }; // left upper leg
-    frames[4][rightLowerLeg] = { { 0 * unit ,  -4 * unit }, 0, {1 * unit, 4 * unit}, blue, -1, -1 }; // left lower leg
-    frames[4][rightFoot] = { {  1 * unit , -2 * unit }, 0.0f, {2 * unit , 1 * unit}, blue, -1, -1 }; // left foot
-    frames[4][leftUpperLeg] = { { 0 * unit, -2 * unit }, 10.0f, {1 * unit, 4 * unit}, hotPink, -1, -1 }; // right upper leg
-    frames[4][leftLowerLeg] = { { 0.0f, -4 * unit }, 0, {1 * unit, 4 * unit}, hotPink, -1, -1 }; // right lower leg
-    frames[4][leftFoot] = { { 1 * unit, -2 * unit }, 0.0f, {2 * unit , 1 * unit}, hotPink, -1, -1 }; // right foot
-    frames[4][torso] = { { 0.0f, 3 * unit }, 0.0f, {1.0f, 2.5f}, pink, -1, -1 }; // torso
-    frames[4][neck] = { { 0.0f, 3 * unit }, 0.0f, {0.4f, 0.5f}, salmon, -1, -1 }; // neck
-    frames[4][head] = { { 0.0f, 1 * unit }, 0.0f, {1.0f, 1.0f}, champagne, -1, -1 }; // head
-    frames[4][rightUpperArm] = { { -1 * unit, 1 * unit }, 180.0f, { 1 * unit, 1.5f}, blue, -1, -1 }; // left upper arm
-    frames[4][rightLowerArm] = { { 0.5f * unit, -3 * unit }, 0.0f, {1 * unit, 1.5f}, blue, -1, -1 }; // left lower arm
-    frames[4][rightHand] = { { 0.0f, -1 * unit}, 0.0f, {1 * unit, 0.5f},lemon,  -1, -1 }; // left hand
-    frames[4][leftUpperArm] = { { 1 * unit, 1 * unit}, 170.0f, {1 * unit, 1.5f}, pink, -1, -1 }; // right upper arm
-    frames[4][leftLowerArm] = { { 0.5f * unit, -3 * unit }, 0.0f, {1 * unit, 1.5f}, pink, -1, -1 }; // right lower arm
-    frames[4][leftHand] = { { 0.0f, -1 * unit }, 0.0f, {1 * unit, 0.5f}, lemon, -1, -1 }; // right hand
-
-
 }
 
 void Character::init() {
     for (size_t i = 0; i < 3; i++) {
         sendDataToOpenGL(&model[i], &VAO[i], & VBO[i], &EBO[i]);
     }
-}
-
-void Character::linkBody() {
-    for (unsigned int i = 0; i < 5; i++) {
-        frames[i][pelvis].child =leftUpperLeg; // pelvis 
-        frames[i][leftUpperLeg].child =leftLowerLeg; // 
-        frames[i][leftLowerLeg].child =leftFoot;
-        frames[i][leftUpperLeg].sibling =rightUpperLeg;
-        frames[i][rightUpperLeg].child =rightLowerLeg;
-        frames[i][rightLowerLeg].child =rightFoot;
-        frames[i][rightUpperLeg].sibling =torso;
-        frames[i][torso].child =neck;
-        frames[i][neck].child =head;
-        frames[i][neck].sibling =leftUpperArm;
-        frames[i][leftUpperArm].child =leftLowerArm;
-        frames[i][leftLowerArm].child =leftHand;
-        frames[i][leftUpperArm].sibling =rightUpperArm;
-        frames[i][rightUpperArm].child =rightLowerArm;
-        frames[i][rightLowerArm].child =rightHand;
-    }
-
 }
 
 void Character::drawCircle() {
@@ -248,6 +104,9 @@ void Character::frameSelection(int* anime) {
     if (falling) {
         frame = 4;
     }
+    if (jumping || PosY > baseline) {
+        frame = 0;
+    }
 }
 
 void Character::drawCharacter(int* anime) {
@@ -284,7 +143,7 @@ void Character::setJumping(GLint flag) {
     }
 }
 
-void Character::updatePosY(GLfloat baselineFront, GLfloat baselineCenter, GLfloat baselinePrev, bool* onGame) {
+void Character::updatePosY() {
     if (jumping) {
         if (PosY < actualLimit) {
             PosY += jumpSpeed;
@@ -294,31 +153,34 @@ void Character::updatePosY(GLfloat baselineFront, GLfloat baselineCenter, GLfloa
         }
     }
     else {
-        if (PosY > baselineCenter) {
+        if (PosY > baseline) {
             PosY -= jumpSpeed;
         }
-    }
-
-    if (!falling && PosY < (baselineFront + 0.01f) && PosY > (baselineFront - 0.02f)) {
-        PosY = baselineFront;
-    } 
-
-    if (!falling && PosY < (baselineFront - 0.1f) ) {
-        std::cout << "terrain collision" << std::endl;
-        *onGame = false;
-    }
-
-    if (baselineFront == 0.0f && PosY < baselinePrev) {
-        falling = true;
-    }
-
-
-    if (falling) {
-        PosY -= 2 * jumpSpeed;
-        if (PosY < -1.5f) {
-           *onGame = false;
+        else if (PosY < baseline + 0.05) {
+            PosY = 0;
         }
     }
+
+    //if (!falling && PosY < (baselineFront + 0.01f) && PosY > (baselineFront - 0.02f)) {
+    //    PosY = baselineFront;
+    //} 
+
+    //if (!falling && PosY < (baselineFront - 0.1f) ) {
+    //    std::cout << "terrain collision" << std::endl;
+    //    *onGame = false;
+    //}
+
+    //if (baselineFront == 0.0f && PosY < baselinePrev) {
+    //    falling = true;
+    //}
+
+
+    //if (falling) {
+    //    PosY -= 2 * jumpSpeed;
+    //    if (PosY < -1.5f) {
+    //       *onGame = false;
+    //    }
+    //}
 }
 
 GLfloat Character::getPosY() {

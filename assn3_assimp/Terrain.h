@@ -38,14 +38,14 @@ class Terrain {
         GLuint mushroomEBO;
     public:
         ~Terrain() {};
-        Terrain(GLfloat characterPosX, GLfloat gameSpeed);
+        Terrain();
         void init();
         void updateBlockHeight();
         void updateStartPoint();
         GLfloat updateCharacterStandingYPos(GLfloat characterPosX, GLint order);
         void drawTerrainBlock(GLfloat height);
-        void drawTerrainMushroom(GLfloat height);
         void drawTerrain();
+        void drawT();
         void drawMushroom();
         GLfloat getBlockWidth();
         void drawBlockCollisionLine(GLfloat PosX); 

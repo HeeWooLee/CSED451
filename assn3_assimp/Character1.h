@@ -38,13 +38,12 @@ public:
     Character();
     void init();
     void hierarchicalRender(int currentNodeInd, int anime);
-    void linkBody();
     void drawCircle();
     void frameSelection(int* anime);
     void drawCharacter(int* anime);
     void collisionBox();
     void setJumping(GLint flag);
-    void updatePosY(GLfloat baselineFront, GLfloat baselineCenter, GLfloat baselinePrev, bool* onGame);
+    void updatePosY();
     GLfloat getPosY();    GLfloat getPosX();
     GLfloat getWidth();
     GLfloat getHeight();

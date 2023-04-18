@@ -49,7 +49,7 @@ void keyboard(unsigned char key, int x, int y) {
         reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
         break;
     case ' ':
-
+        game.setJump();
         break;
 
     case 'q':
@@ -77,11 +77,8 @@ void paintGL(void)
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // glClearDepth(1.0f);
-    // glDepthFunc(GL_LESS);
     glEnable(GL_DEPTH_TEST);
 
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
@@ -96,16 +93,9 @@ void paintGL(void)
     }
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    glColor3f(1.0f, 1.0f, 1.0f);
-    //glScalef(0.05f, 0.05f, 0.05f);
-    glScalef(0.3f, 0.3f, 0.3f);
-    glTranslatef(-0.5f, 0.0f, 0.0f);
 
-
-    // 모델 그리기
-    glScalef(0.01f, 0.01f, 0.001f);
-    // matrix("floor");
     game.draw();
+
     glutSwapBuffers();
     glutPostRedisplay();
 }

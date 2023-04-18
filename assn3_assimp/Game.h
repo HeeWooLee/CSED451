@@ -8,12 +8,15 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 #include "Character1.h"
+#include "Terrain.h"
 class Game {
 private:
 	GLuint score = 0;
 	bool onGame = true;
 	Character character;
+	Terrain terrain;
 	int anime = 0;
+	GLfloat gameSpeed;
 public:
 	Game();
 	void init();
@@ -21,4 +24,5 @@ public:
 	void draw();
 	void update();
 	void setJump();
+
 };
