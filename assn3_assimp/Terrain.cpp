@@ -5,6 +5,7 @@ Terrain::Terrain() {
     terrainModel = loadObjFile("meshes/cube.obj");
     starModel = loadObjFile("meshes/star.obj");
     mushroomModel = loadObjFile("meshes/mushroom.obj");
+    ballModel = loadObjFile("meshes/fireball.obj");
 
 }
 
@@ -12,6 +13,7 @@ void Terrain::init() {
         sendDataToOpenGL(&terrainModel, &terrainVAO, &terrainVBO, &terrainEBO);
         sendDataToOpenGL(&starModel, &starVAO, &starVBO, &starEBO);
         sendDataToOpenGL(&mushroomModel, &mushroomVAO, &mushroomVBO, &mushroomEBO);
+        sendDataToOpenGL(&ballModel, &ballVAO, &ballVBO, &ballEBO);
 
 }
 
@@ -126,7 +128,12 @@ void Terrain::drawT() {
     draw(&mushroomVAO, &mushroomModel);
 }
 
-
+void Terrain::drawStar() {
+    draw(&starVAO, &starModel);
+}
+void Terrain::drawBall() {
+    draw(&ballVAO, &ballModel);
+}
 GLfloat Terrain::getBlockWidth(){
     return blockWidth;
 }

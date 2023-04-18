@@ -36,6 +36,11 @@ class Terrain {
         GLuint mushroomVAO;
         GLuint mushroomVBO;
         GLuint mushroomEBO;
+
+        Model ballModel;
+        GLuint ballVAO;
+        GLuint ballVBO;
+        GLuint ballEBO;
     public:
         ~Terrain() {};
         Terrain();
@@ -45,8 +50,11 @@ class Terrain {
         GLfloat updateCharacterStandingYPos(GLfloat characterPosX, GLint order);
         void drawTerrainBlock(GLfloat height);
         void drawTerrain();
+
+        void drawStar();
         void drawT();
         void drawMushroom();
+        void drawBall();
         GLfloat getBlockWidth();
         void drawBlockCollisionLine(GLfloat PosX); 
         GLint checkNearMushroom(GLfloat PosX);

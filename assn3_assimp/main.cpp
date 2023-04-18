@@ -26,10 +26,16 @@ void reshape(int width, int height) {
     if (currentViewMode == 1) {
         gluPerspective(60.0, (GLfloat)width / (GLfloat)height, 1.0, 100.0);
     }
+
+    else if (currentViewMode == 2) {
+        glOrtho(-5, 5, -5, 5, 0.1, 100.0);
+    }
+
     else {
 
-        glOrtho(-5, 5, -5, 5, 1.0, 100.0);
+        gluPerspective(60.0, (GLfloat)width / (GLfloat)height, 1.0, 100.0);
     }
+
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -38,14 +44,16 @@ void reshape(int width, int height) {
 // a keyboard function to handle keyboard input and switch the view mode
 void keyboard(unsigned char key, int x, int y) {
     switch (key) {
-    case 'p':
-    case 'P':
+    case '1':
         currentViewMode = 1;
         reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
         break;
-    case 'o':
-    case 'O':
+    case '2':
         currentViewMode = 2;
+        reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
+        break;
+    case '3':
+        currentViewMode = 3;
         reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
         break;
     case ' ':
@@ -86,10 +94,14 @@ void paintGL(void)
         // View mode 1: Camera behind the star
         gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
     }
+    else if (currentViewMode == 2) {
+        gluLookAt(0, 0, 0.2, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    }
     else {
         // View mode 2: Camera at the top left direction
         //gluLookAt(5.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-        gluLookAt(-5.0, 5.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+        //gluLookAt(-5.0, 5.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+        gluLookAt(-3.0, 3.0, 0.0, 5.0, 0.0, 0.0, 0.0, 1.0, 0.0);
     }
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
