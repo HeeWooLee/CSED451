@@ -1,0 +1,5 @@
+1.*
+OBJLoader.*
+*.zip
+External Libraries/*
+*.vcxproj.*
