@@ -1,0 +1,12 @@
+# Blender 3.5.0 MTL File: 'None'
+# www.blender.org
+
+newmtl StaticMeshActor_53
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.580400 0.819600 0.996100
+Ks 0.767333 0.767333 0.767333
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
