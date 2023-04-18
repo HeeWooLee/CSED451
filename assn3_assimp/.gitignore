@@ -1,5 +1,5 @@
-1.*
-OBJLoader.*
-*.zip
-External Libraries/*
-*.vcxproj.*
+assn3_assimp/1.*
+assn3_assimp/OBJLoader.*
+assn3_assimp/*.zip
+assn3_assimp/External Libraries/*
+assn3_assimp/*.vcxproj.*
