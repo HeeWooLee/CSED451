@@ -121,7 +121,7 @@ void sendDataToOpenGL(Model* model,
     );
 }
 
-void draw(GLuint* VAO, Model* obj) {
+void drawModel(GLuint* VAO, Model* obj) {
     glBindVertexArray(*VAO);
 
     glDrawElements(GL_TRIANGLES, (*obj).face_position_indices.size(), GL_UNSIGNED_INT, 0);

@@ -10,12 +10,14 @@
 #include "Character1.h"
 #include "Terrain.h"
 #include "Utils.h"
+#include "GameObject.h"
 class Game {
 private:
 	GLuint score = 0;
 	bool onGame = true;
 	Character character;
 	Terrain terrain;
+	Star* star;
 	int anime = 0;
 	GLfloat gameSpeed;
 	GLfloat scale = 1000.0f;

@@ -22,4 +22,4 @@ void sendDataToOpenGL(Model* model,
     GLuint* VBO,
     GLuint* EBO);
 
-void draw(GLuint* VAO, Model* obj);
+void drawModel(GLuint* VAO, Model* obj);

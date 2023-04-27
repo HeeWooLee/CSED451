@@ -153,16 +153,22 @@
   <ItemGroup>
     <ClCompile Include="Character1.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="InitShader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Terrain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Angel.h" />
     <ClInclude Include="Character1.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="mat.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="vec.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

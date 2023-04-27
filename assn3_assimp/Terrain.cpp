@@ -36,7 +36,7 @@ void Terrain::drawMushroom() {
 
         if (blockHeight[i] == 2) {
             /* if (blockHeight[i] != 0.3f) {*/
-            draw(&mushroomVAO, &mushroomModel);
+            drawModel(&mushroomVAO, &mushroomModel);
             //}
         }
         glTranslatef(blockWidth, 0.0f, 0.0f);
@@ -118,21 +118,21 @@ void Terrain::drawTerrain() {
     glTranslatef(startPoint, -1.0f, 0.0f);
     for (int i = 0; i < blockHeight.size(); ++i) {
         GLfloat height = blockLevels[blockHeight[i]];
-        draw(&terrainVAO, &terrainModel);
+        drawModel(&terrainVAO, &terrainModel);
         glTranslatef(blockWidth, 0.0f, 0.0f);
     }
 }
 void Terrain::drawT() {
-    draw(&terrainVAO, &terrainModel);
-    draw(&starVAO, &starModel);
-    draw(&mushroomVAO, &mushroomModel);
+    drawModel(&terrainVAO, &terrainModel);
+    drawModel(&starVAO, &starModel);
+    drawModel(&mushroomVAO, &mushroomModel);
 }
 
 void Terrain::drawStar() {
-    draw(&starVAO, &starModel);
+    drawModel(&starVAO, &starModel);
 }
 void Terrain::drawBall() {
-    draw(&ballVAO, &ballModel);
+    drawModel(&ballVAO, &ballModel);
 }
 GLfloat Terrain::getBlockWidth(){
     return blockWidth;

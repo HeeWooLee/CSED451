@@ -112,16 +112,18 @@ void Character::frameSelection(int* anime) {
 void Character::drawCharacter(int* anime) {
     // hierarchicalRender(0, *anime);
     frameSelection(anime);
-    draw(&VAO[frame], &model[frame]);
+    drawModel(&VAO[frame], &model[frame]);
 }
 
 void Character::collisionBox() {
+    glScalef(100.0f, 200.0f, 100.0f);
     glColor3f(0.62f, 0.12f, 0.94f);
     glBegin(GL_QUADS);
     glVertex2f(-0.5f * width, height);
     glVertex2f(0.5f * width, height);
     glVertex2f(0.5f * width, 0.0f);
     glVertex2f(-0.5f * width, 0.0f);
+    glScalef(0.01f, 0.01f, 0.01f);
     glEnd();
 }
 

@@ -7,6 +7,12 @@ Game::Game() {
 void Game::init() {
 	character.init();
 	terrain.init();
+	star = new Star("meshes/star.obj", 1.0f, 1.0f, 1.0f, 1.0f);
+
+
+
+
+
 
 	GLfloat tmp = 1.5f;
 	Position tmpPos;
@@ -37,6 +43,34 @@ void Game::update() {
 	fireballPosX -= fireballSpeed;
 }
 
+
+void Game::starContactDetected() {
+	GLfloat PosY = character.getPosY() - 1.0f;
+	GLfloat width = character.getWidth() * 0.4f;
+	GLfloat height = character.getHeight() * 0.4f;
+	for (int i = 0; i < stars.size(); ++i) {
+		GLuint choice = starsPatternChoice[i];
+		GLfloat PosX = stars[i] + starPosX;
+		if (PosX >= 4) {
+			break;
+		}
+		if (PosX > -4.0 * scale && PosX < 4.0 * scale) {
+			std::vector<Position> chosen = starPatterns[choice];
+			std::vector<GLfloat>* consumed = &(starsConsumed[i]);
+			for (int j = 0; j < chosen.size(); ++j) {
+				if ((*consumed)[j] != 0.0f && (PosY + 2.0 * height) > chosen[j].y && PosY < chosen[j].y
+					&& (character.getPosX() + width) >(PosX + chosen[j].x) && (character.getPosX() - width) < (PosX + chosen[j].x)) {
+				
+
+						std::cout << "star Contacted" << std::endl;
+					score += 5;
+					(*consumed)[j] = 0.0f;
+				}
+			}
+		}
+	}
+}
+
 void Game::draw() {
 	if (onGame) {
 		glColor3f(1.0f, 1.0f, 1.0f);
@@ -46,6 +80,8 @@ void Game::draw() {
 		glTranslatef(0.0f, 1000 * character.getPosY(), 0.0f);
 		glTranslatef(0.0f, 1000*character.getPosY(), 0.0f);
 		character.drawCharacter(&anime);
+		// character.collisionBox();
+		glColor3f(1.0f, 1.0f, 1.0f);
 		glPopMatrix();
 
 		glPushMatrix();
@@ -54,6 +90,8 @@ void Game::draw() {
 
 		glTranslatef(gameSpeed, 0.0f, 0.0f);
 		glPopMatrix();
+
+		
 
 		for (int i = 0; i < stars.size(); ++i) {
 			GLuint choice = starsPatternChoice[i];
@@ -80,6 +118,10 @@ void Game::draw() {
 				glPopMatrix();
 			}
 		}
+
+		glColor3f(1.0f, 0.0f, 0.0f);
+		star->draw();
+
 
 		for (int i = 0; i < fireballs.size(); ++i) {
 			
@@ -150,10 +192,6 @@ void Game::downScale() {
 void Game::upScale() {
 
 	glScalef(1.0f/0.003f, 1.0f / 0.003f, 1.0f / 0.003f);
-}
-
-
-void Game::starContactDetected() {
 }
 
 
