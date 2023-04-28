@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="learnopengl\1.model_loading.vs">
+    <None Include="fshader.glsl">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="learnopengl\1.model_loading.fs">
+    <None Include="vshader.glsl">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

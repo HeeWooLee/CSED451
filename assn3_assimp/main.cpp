@@ -13,7 +13,7 @@ int currentViewMode = 1;
 
 
 int anime = 1;
-Game game;
+Game* game = new Game();
 void init() {
 }
 
@@ -57,13 +57,13 @@ void keyboard(unsigned char key, int x, int y) {
         reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
         break;
     case ' ':
-        game.setJump();
+        game->setJump();
         break;
 
     case 'q':
     case 'Q':
     case 27:
-        game.endGame();
+        game->endGame();
         break;
     default:
         break;
@@ -76,7 +76,7 @@ void initializedGL(void) //run only once
 {
     glewExperimental = GL_TRUE;
     glewInit();
-    game.init();
+    game->init();
 }
 
 
@@ -106,14 +106,14 @@ void paintGL(void)
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-    game.draw();
+    game->draw();
 
     glutSwapBuffers();
     glutPostRedisplay();
 }
 
 void update(int value) {
-    game.update();
+    game->update();
             glutPostRedisplay();
             glutTimerFunc(5, update, 0);
 }
