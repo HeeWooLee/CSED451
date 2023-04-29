@@ -162,6 +162,7 @@
     <ClInclude Include="vec.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".gitignore" />
     <None Include="fshader.glsl" />
     <None Include="vshader.glsl" />
   </ItemGroup>

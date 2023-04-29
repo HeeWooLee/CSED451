@@ -54,5 +54,6 @@
   <ItemGroup>
     <None Include="fshader.glsl" />
     <None Include="vshader.glsl" />
+    <None Include=".gitignore" />
   </ItemGroup>
 </Project>

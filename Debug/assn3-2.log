@@ -1,4 +1,4 @@
-﻿  main.cpp
+﻿  Game.cpp
 C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\Angel.h(63,48): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
 C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(765,23): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
 C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(766,23): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
@@ -7,5 +7,63 @@ C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat
 C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(790,31): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
 C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(793,39): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
 C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(810,39): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\main.cpp(89,34): warning C4326: return type of 'main' should be 'int' instead of 'void'
+  Model.cpp
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\Angel.h(63,48): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(765,23): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(766,23): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(767,23): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(788,31): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(790,31): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(793,39): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(810,39): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\Model.cpp(53,33): warning C4305: '-=': truncation from 'double' to 'GLfloat'
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\Model.cpp(56,33): warning C4305: '-=': truncation from 'double' to 'GLfloat'
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\Model.cpp(85,31): warning C4018: '<': signed/unsigned mismatch
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\Model.cpp(96,55): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\Model.cpp(99,55): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\Model.cpp(102,56): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\Model.cpp(116,23): warning C4018: '<': signed/unsigned mismatch
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(681,47): warning C4244: 'initializing': conversion from 'GLfloat' to '_Objty', possible loss of data
+          with
+          [
+              _Objty=unsigned int
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\vector(708): message : see reference to function template instantiation 'void std::_Default_allocator_traits<_Alloc>::construct<_Ty,GLfloat&>(_Alloc &,_Objty *const ,GLfloat &)' being compiled
+          with
+          [
+              _Alloc=std::allocator<GLuint>,
+              _Ty=unsigned int,
+              _Objty=unsigned int
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\vector(713): message : see reference to function template instantiation 'void std::_Default_allocator_traits<_Alloc>::construct<_Ty,GLfloat&>(_Alloc &,_Objty *const ,GLfloat &)' being compiled
+          with
+          [
+              _Alloc=std::allocator<GLuint>,
+              _Ty=unsigned int,
+              _Objty=unsigned int
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\vector(726): message : see reference to function template instantiation 'void std::vector<GLuint,std::allocator<GLuint>>::_Emplace_back_with_unused_capacity<GLfloat&>(GLfloat &)' being compiled
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\Model.cpp(106): message : see reference to function template instantiation 'void std::vector<GLuint,std::allocator<GLuint>>::emplace_back<GLfloat&>(GLfloat &)' being compiled
+  Object.cpp
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\Angel.h(63,48): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(765,23): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(766,23): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(767,23): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(788,31): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(790,31): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(793,39): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(810,39): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\Object.cpp(26,9): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\Object.cpp(83,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  main.cpp
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\Angel.h(63,48): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(765,23): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(766,23): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(767,23): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(788,31): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(790,31): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(793,39): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\mat.h(810,39): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\main.cpp(64,34): warning C4326: return type of 'main' should be 'int' instead of 'void'
+  Generating Code...
   assn3-2.vcxproj -> C:\Users\owner\Documents\이희우\Graphics\assn\assn3\repos\assn3-2\assn3-2\bin\x86\assn3-2.exe

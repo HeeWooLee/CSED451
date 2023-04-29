@@ -1,5 +1,6 @@
 #include "Object.h"
 
+#include <time.h>
 #include "Game.h"
 using namespace std;
 extern Game* game;
@@ -10,14 +11,15 @@ Object::Object() {
 	ver_loc = game->ver_loc;
 	model_loc = game->model_loc;
 	program = game->getProgram();
+	transform = Scale(game->scale) * mat4(1.0f);
 }
 
 void Object::set(float _x, float _y, float _width, float _height) {
 	x = _x; y = _y; width = _width; height = _height;
 }
 
-void Object::setSize(float _width, float _height) {
-	width = _width; height = _height;
+void Object::setSize(vec3 size) {
+	width = size.x; height = size.y; depth = size.z;
 }
 
 void Object::setName(int _name) {
@@ -52,55 +54,110 @@ Character::Character() {
 	move(48, 270);
 	frame = 20;
 	count = 0; upDown = 0; direction = 0;
-	setSize(70, 70);
+	transform = Translate(- game->getModel()->characterInfo[0][0]) * transform;
+	setSize(game->getModel()->characterInfo[0][1]);
 }
-//
-//GLuint* loadData() {
-//
-//	GLuint VBO;
-//	GLuint EBO;
-//	GLuint buf[3];
-//	vector<vec3> vertex_positions = {
-//		vec3(-1.0f, -1.0f, -1.0f),
-//		vec3(-1.0f, -1.0f,  1.0f),
-//		vec3(-1.0f,  1.0f, -1.0f),
-//		vec3(-1.0f,  1.0f,  1.0f),
-//		vec3(1.0f, -1.0f, -1.0f),
-//		vec3(1.0f, -1.0f,  1.0f),
-//		vec3(1.0f,  1.0f, -1.0f),
-//		vec3(1.0f,  1.0f,  1.0f),
-//	};
-//
-//	vector<GLuint> indices = {
-//		0, 1, 2, 2, 1, 3, // left face
-//		4, 5, 6, 6, 5, 7, // right face
-//		0, 4, 2, 2, 4, 6, // bottom face
-//		1, 5, 3, 3, 5, 7, // top face
-//		0, 1, 4, 4, 1, 5, // front face
-//		2, 3, 6, 6, 3, 7  // back face
-//	};
-//
-//	glGenBuffers(1, &VBO);
-//	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-//	glBufferData(GL_ARRAY_BUFFER, vertex_positions.size() * sizeof(vec3), &vertex_positions[0], GL_STATIC_DRAW);
-//
-//	glGenBuffers(1, &EBO);
-//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-//	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &indices[0], GL_STATIC_DRAW);
-//
-//	buf[0] = VBO;
-//	buf[1] = EBO;
-//	buf[2] = indices.size();
-//
-//	return buf;
-//}
-
 
 void Character::draw() {
-	GLuint* buf = game->getModel()->star;
-	transform = Scale(0.001f, 0.001f, 0.001f);
-	// GLuint* buf = loadData();
+	//for (size_t i = 0; i < 3; i++) {
+	//	GLuint* buf = game->getModel()->character[i];
+	//	draw_code(buf);
+	//}
+	/*
+	* THINGS TO ADD: 
+	* - add keyboard jump and frame 
+	*/
+	GLuint* buf = game->getModel()->character[0];
 	draw_code(buf);
+}
 
-	// cout << "character drawing success" << endl;
+
+Cube::Cube() {
+	setSize(game->getModel()->cubeInfo[1]);
+	levels = { 1,1,1,2,1, 1, 0,  1, 2,3 };
+	randomLevel();
+	transform = Translate(- game->getModel()->cubeInfo[0]) * transform;
+}
+
+void Cube::randomLevel() {
+	srand(time(NULL));
+	int num = rand() % 4;
+	int prev = num;
+	for (int i = 0; i < 200; i++) {
+		num = rand() % 4;
+		if (num == 3) {
+			if (prev == 1) {
+				num = rand() % 2 + 1;
+			}
+		}
+		if (num == 0) {
+			if (rand() % 4 == 0 || prev == 0) {
+				num = rand() % 3 + 1;
+			}
+		}
+
+		levels.push_back(num);
+		if (num == 0) {
+			levels.push_back(prev);
+		}
+		else {
+			prev = num;
+		}
+	}
+}
+
+void Cube::draw() {
+	GLuint* buf = game->getModel()->cube;
+	float width = getWidth();
+
+	matStack.push(transform);
+	for (size_t i = 0; i < levels.size(); i++) {
+		GLuint level = levels[i];
+		transform = Translate(width * i, 0.0, 0.0) * matStack.top();
+		matStack.push(transform);
+		for (size_t j = 0; j < level; j++) {
+			transform = Translate(0.0, width * j, 0.0) * matStack.top();
+			draw_code(buf);
+		}
+		matStack.pop();
+	}
+
+	transform = matStack.top();
+	while (!matStack.empty()) {
+		matStack.pop();
+	}
+
+}
+
+Star::Star() {
+	setSize(game->getModel()->starInfo[1]);
+	transform = Translate(-game->getModel()->starInfo[0]) * transform;
+}
+
+
+void Star::draw() {
+	GLuint* buf = game->getModel()->star;
+	draw_code(buf);
+}
+
+
+Fireball::Fireball() {
+	setSize(game->getModel()->fireballInfo[1]);
+	transform = Translate(-game->getModel()->fireballInfo[0]) * transform;
+}
+
+void Fireball::draw() {
+	GLuint* buf = game->getModel()->fireball;
+	draw_code(buf);
+}
+
+
+Mushroom::Mushroom() {
+	setSize(game->getModel()->mushroomInfo[1]);
+	transform = Translate(-game->getModel()->mushroomInfo[0]) * transform;
+}
+
+void Mushroom::draw() {
+	GLuint* buf = game->getModel()->mushroom;
+	draw_code(buf);
 }

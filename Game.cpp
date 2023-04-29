@@ -1,6 +1,7 @@
 #include "Game.h"
 
 Game::Game() {
+	scale = vec3(0.001f, 0.001f, 0.001f);
 }
 
 void Game::shaderInit() {
@@ -20,6 +21,19 @@ void Game::shaderInit() {
 
 void Game::init() {
 	model = new Model();
-
 	character = new Character();
+	cube = new Cube();
+	star = new Star();
+	fireball = new Fireball();
+	mushroom = new Mushroom();
+}
+
+
+
+void Game::drawAll() {
+	character->draw();
+	cube->draw();
+	star->draw();
+	fireball->draw();
+	mushroom->draw();
 }

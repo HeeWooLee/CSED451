@@ -6,42 +6,6 @@ using namespace std;
 
 Game* game;
 
-
-//GLuint VBO;
-//GLuint EBO;
-//GLuint VAO;
-//GLuint program;
-//GLuint ver_loc;
-//void loadData() {
-//	vector<vec3> vertex_positions = {
-//		vec3(-1.0f, -1.0f, -1.0f),
-//		vec3(-1.0f, -1.0f,  1.0f),
-//		vec3(-1.0f,  1.0f, -1.0f),
-//		vec3(-1.0f,  1.0f,  1.0f),
-//		vec3(1.0f, -1.0f, -1.0f),
-//		vec3(1.0f, -1.0f,  1.0f),
-//		vec3(1.0f,  1.0f, -1.0f),
-//		vec3(1.0f,  1.0f,  1.0f),
-//	};
-//
-//	vector<GLuint> indices = {
-//		0, 1, 2, 2, 1, 3, // left face
-//		4, 5, 6, 6, 5, 7, // right face
-//		0, 4, 2, 2, 4, 6, // bottom face
-//		1, 5, 3, 3, 5, 7, // top face
-//		0, 1, 4, 4, 1, 5, // front face
-//		2, 3, 6, 6, 3, 7  // back face
-//	};
-//
-//	glGenBuffers(1, &VBO);
-//	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-//	glBufferData(GL_ARRAY_BUFFER, vertex_positions.size() * sizeof(vec3), &vertex_positions[0], GL_STATIC_DRAW);
-//
-//	glGenBuffers(1, &EBO);
-//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-//	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &indices[0], GL_STATIC_DRAW);
-//}
-
 void init(int argc, char** argv) {
 	glutInit(&argc, argv);
 
@@ -58,11 +22,10 @@ void init(int argc, char** argv) {
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LINE_SMOOTH);
-	glDepthFunc(GL_LEQUAL);
+	glDepthFunc(GL_LEQUAL);	
 	game = new Game();
 	game->shaderInit();
 	game->init();
-	// loadData();
 }
 
 void renderScene(void) {
@@ -71,12 +34,7 @@ void renderScene(void) {
 
 	glColor3f(1.0f, 0.0f, 0.0f);
 
-	//glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	//glVertexAttribPointer(game->ver_loc, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	//glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
-
-	game->getCharacter()->draw();
+	game->drawAll();
 	glutSwapBuffers();
 	glutPostRedisplay();
 }
@@ -86,11 +44,28 @@ void update(int value) {
 	glutTimerFunc(5, update, 0);
 }
 
+void reshape(int width, int height) {
+	int windowWidth = width;
+	int windowHeight = height;
+	glViewport(0, 0, windowWidth, windowHeight);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	if (windowWidth <= windowHeight) {
+		GLfloat aspect = (GLfloat)windowHeight / (GLfloat)windowWidth;
+		glOrtho(-1.0, 1.0, -1.0 * aspect, 1.0 * aspect, -1.0, 1.0);
+	}
+	else {
+		GLfloat aspect = (GLfloat)windowWidth / (GLfloat)windowHeight;
+		glOrtho(-1.0 * aspect, 1.0 * aspect, -1.0, 1.0, -1.0, 1.0);
+	}
+}
+
 void main(int argc, char** argv) {
 
 	init(argc, argv);
-
 	glutDisplayFunc(renderScene);
+	glutReshapeFunc(reshape);
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 	glutTimerFunc(5, update, 0);
 	glutMainLoop();

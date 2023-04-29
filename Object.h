@@ -1,10 +1,11 @@
 #pragma once
 #include <stack>
+#include <vector>
 #include "Angel.h"
 using namespace std;
 class Object {
 private:
-	float width, height, name;
+	float width, height, depth, name;
 
 protected:
 	float x, y;
@@ -18,7 +19,7 @@ protected:
 public:
 	Object();
 	void set(float _x, float _y, float _width, float _height);
-	void setSize(float _width, float _height);
+	void setSize(vec3);
 	void setName(int _name);
 	void setY(float _y);
 	void setX(float _x);
@@ -46,3 +47,34 @@ public:
 	void draw();
 };
 
+class Cube : public Object {
+private: 
+	vector<GLuint> levels;
+	stack<mat4> matStack;
+public: 
+	Cube();
+	void randomLevel();
+	void draw();
+};
+
+class Star : public Object {
+private:
+public:
+	Star();
+	void draw();
+};
+
+class Fireball : public Object {
+private:
+public:
+	Fireball();
+	void draw();
+};
+
+
+class Mushroom : public Object {
+private:
+public:
+	Mushroom();
+	void draw();
+};

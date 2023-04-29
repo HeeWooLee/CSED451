@@ -9,12 +9,20 @@ private:
 	GLuint program;
 	Model* model;
 	Character* character;
+	Cube* cube;
+	Star* star;
+	Fireball* fireball;
+	Mushroom* mushroom;
 public:
+	vec3 scale;
+
 	GLuint ver_loc; /* attribute variable */
 	GLuint model_loc; /* uniform variable */
+
 	Game();
 	void shaderInit();
 	void init();
+	void drawAll();
 
 	GLuint getProgram() { return program; }
 	Model* getModel() { return model; }
