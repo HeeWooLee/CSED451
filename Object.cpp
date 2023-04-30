@@ -22,16 +22,22 @@ void Object::setSize(vec3 size) {
 	width = size.x; height = size.y; depth = size.z;
 }
 
-void Object::setName(int _name) {
-	name = _name;
-}
-
 void Object::setY(float _y) {
 	y = _y;
 }
 
 void Object::setX(float _x) {
 	x = _x;
+}
+
+void Object::setSpeed(float _speed) {
+	speed = _speed;
+}
+
+void Object::initPosition(float _x, float _y, vec3 modelCenter) {
+	setX(_x);
+	setY(_y);
+	transform = Translate(getX(),getY(), 0.0) * Translate(-modelCenter) * transform;
 }
 
 void Object::draw_code(GLuint* buf) {
@@ -50,12 +56,9 @@ void Object::move(float _x, float _y) {
  * Character class
  */
 Character::Character() {
-	state = 0;
-	move(48, 270);
-	frame = 20;
-	count = 0; upDown = 0; direction = 0;
-	transform = Translate(- game->getModel()->characterInfo[0][0]) * transform;
 	setSize(game->getModel()->characterInfo[0][1]);
+	initPosition(-0.7f, game->baseline + getHeight()/2, game->getModel()->characterInfo[0][0]);
+
 }
 
 void Character::draw() {
@@ -68,15 +71,27 @@ void Character::draw() {
 	* - add keyboard jump and frame 
 	*/
 	GLuint* buf = game->getModel()->character[0];
+	matStack.push(transform);
+	transform = Translate(0.0, game->prevBaseline, 0.0) * transform;
+	
 	draw_code(buf);
+	transform = matStack.top();
+	matStack.pop();
 }
 
-
+/*
+ * Cube class
+ */
 Cube::Cube() {
 	setSize(game->getModel()->cubeInfo[1]);
+	setSpeed(game->speed);
+	currStart = resetStart = getWidth() * -6.0;
+
+	initPosition( resetStart, game->baseline, game->getModel()->cubeInfo[0]);
+	game->baseline += getHeight() / 2;
+
 	levels = { 1,1,1,2,1, 1, 0,  1, 2,3 };
 	randomLevel();
-	transform = Translate(- game->getModel()->cubeInfo[0]) * transform;
 }
 
 void Cube::randomLevel() {
@@ -110,8 +125,26 @@ void Cube::draw() {
 	GLuint* buf = game->getModel()->cube;
 	float width = getWidth();
 
+	/* renew start point of drawing */
+	if (currStart == resetStart) {
+		matStack.push(transform);
+	}
+	currStart += speed;
+	if (currStart < (resetStart - getWidth())) {
+		currStart = resetStart;
+
+		levels.push_back(levels.front());
+		levels.pop_front();
+
+		transform = matStack.top();
+		matStack.pop();
+	}
+
+	/* draw terrain */
+	transform = Translate(speed, 0.0f, 0.0f) * transform;
 	matStack.push(transform);
-	for (size_t i = 0; i < levels.size(); i++) {
+
+	for (size_t i = 0; i < 20; i++) {
 		GLuint level = levels[i];
 		transform = Translate(width * i, 0.0, 0.0) * matStack.top();
 		matStack.push(transform);
@@ -123,24 +156,30 @@ void Cube::draw() {
 	}
 
 	transform = matStack.top();
-	while (!matStack.empty()) {
-		matStack.pop();
-	}
+	matStack.pop();
 
+	/* baseline update */
+	GLuint xIndex = ceil((game->getCharacter()->getX() - currStart - getWidth()/2) / getWidth());
+	game->baseline = game->initBaseline + (levels[xIndex] + 1) * getHeight() + getHeight() / 2;
+	game->prevBaseline  = game->initBaseline + (levels[xIndex-1] + 1) * getHeight() + getHeight() / 2;
 }
 
+/*
+ * Star class
+ */
 Star::Star() {
 	setSize(game->getModel()->starInfo[1]);
 	transform = Translate(-game->getModel()->starInfo[0]) * transform;
 }
-
 
 void Star::draw() {
 	GLuint* buf = game->getModel()->star;
 	draw_code(buf);
 }
 
-
+/*
+ * Fireball class
+ */
 Fireball::Fireball() {
 	setSize(game->getModel()->fireballInfo[1]);
 	transform = Translate(-game->getModel()->fireballInfo[0]) * transform;
@@ -151,7 +190,9 @@ void Fireball::draw() {
 	draw_code(buf);
 }
 
-
+/*
+ * Mushroom class
+ */
 Mushroom::Mushroom() {
 	setSize(game->getModel()->mushroomInfo[1]);
 	transform = Translate(-game->getModel()->mushroomInfo[0]) * transform;

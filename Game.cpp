@@ -2,6 +2,8 @@
 
 Game::Game() {
 	scale = vec3(0.001f, 0.001f, 0.001f);
+	speed = -0.0001f;
+	baseline = initBaseline = -0.5f;
 }
 
 void Game::shaderInit() {
@@ -21,11 +23,11 @@ void Game::shaderInit() {
 
 void Game::init() {
 	model = new Model();
-	character = new Character();
 	cube = new Cube();
-	star = new Star();
-	fireball = new Fireball();
-	mushroom = new Mushroom();
+	character = new Character();
+	// star = new Star();
+	// fireball = new Fireball();
+	// mushroom = new Mushroom();
 }
 
 
@@ -33,7 +35,7 @@ void Game::init() {
 void Game::drawAll() {
 	character->draw();
 	cube->draw();
-	star->draw();
-	fireball->draw();
-	mushroom->draw();
+	// star->draw();
+	// fireball->draw();
+	// mushroom->draw();
 }

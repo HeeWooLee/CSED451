@@ -15,6 +15,8 @@ private:
 	Mushroom* mushroom;
 public:
 	vec3 scale;
+	float speed;
+	float baseline, initBaseline, prevBaseline;
 
 	GLuint ver_loc; /* attribute variable */
 	GLuint model_loc; /* uniform variable */

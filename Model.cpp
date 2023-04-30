@@ -18,9 +18,9 @@ Model::Model() {
      load("meshes/character_pose1.obj", character[0], characterInfo[0]);
      // load("meshes/character_pose2.obj", character[1], characterInfo[1]);
      // load("meshes/character_pose3.obj", character[2], characterInfo[2]);
-      load("meshes/fireball.obj", fireball, fireballInfo);
-     load("meshes/star.obj", star, starInfo);
-      load("meshes/Mushroom.obj", mushroom, mushroomInfo);
+     //   load("meshes/fireball.obj", fireball, fireballInfo);
+     //  load("meshes/star.obj", star, starInfo);
+     //   load("meshes/Mushroom.obj", mushroom, mushroomInfo);
      load("meshes/cube.obj", cube, cubeInfo);
 }
 
@@ -136,6 +136,7 @@ void Model::load (const string& filename, GLuint* buf, vec3* info)
     cout << "face_position_indices size: " << face_position_indices.size() << endl;
     cout << "face_texture_indices size: " << face_texture_indices.size() << endl;
     cout << "face_normal_indices size: " << face_normal_indices.size() << endl;
+    cout << endl;
 
 
     glGenBuffers(1, &buf[0]);

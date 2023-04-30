@@ -1,11 +1,12 @@
 #pragma once
 #include <stack>
 #include <vector>
+#include <deque>
 #include "Angel.h"
 using namespace std;
 class Object {
 private:
-	float width, height, depth, name;
+	float width, height, depth;
 
 protected:
 	float x, y;
@@ -13,6 +14,8 @@ protected:
 	GLuint buf, sizeVer;
 	GLuint sizeLineVer, sizeLineCol;
 	mat4 transform;
+	stack<mat4> matStack;
+	float speed;
 	int sizeDraw, sizeLineDraw;
 	int baseSize;
 
@@ -20,9 +23,10 @@ public:
 	Object();
 	void set(float _x, float _y, float _width, float _height);
 	void setSize(vec3);
-	void setName(int _name);
 	void setY(float _y);
 	void setX(float _x);
+	void setSpeed(float _speed);
+	void initPosition(float, float, vec3);
 	void draw_code(GLuint*);
 	//virtual void draw() = 0;
 	//virtual void setSpeed(float _speed) = 0;
@@ -49,8 +53,8 @@ public:
 
 class Cube : public Object {
 private: 
-	vector<GLuint> levels;
-	stack<mat4> matStack;
+	float currStart, resetStart;
+	deque<GLuint> levels;
 public: 
 	Cube();
 	void randomLevel();
