@@ -10,6 +10,8 @@ Object::Object() {
 	x = 0; y = 0; width = 0; height = 0;
 	ver_loc = game->ver_loc;
 	model_loc = game->model_loc;
+	//projection_loc = game->projection_loc;
+
 	program = game->getProgram();
 	transform = Scale(game->scale) * mat4(1.0f);
 }
@@ -45,6 +47,7 @@ void Object::draw_code(GLuint* buf) {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buf[1]);
 	glVertexAttribPointer(ver_loc, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	glUniformMatrix4fv(model_loc, 1, GL_TRUE, transform);
+	glUniformMatrix4fv(projection_loc, 1, GL_TRUE, transform);
 	glDrawElements(GL_TRIANGLES, buf[2], GL_UNSIGNED_INT, 0);
 }
 

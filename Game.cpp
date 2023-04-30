@@ -2,7 +2,7 @@
 
 Game::Game() {
 	scale = vec3(0.001f, 0.001f, 0.001f);
-	speed = -0.0001f;
+	speed = -0.01f;
 	baseline = initBaseline = -0.5f;
 }
 
@@ -16,8 +16,10 @@ void Game::shaderInit() {
 
 	ver_loc = glGetAttribLocation(program, "vPosition");
 	glEnableVertexAttribArray(ver_loc);
-
 	model_loc = glGetUniformLocation(program, "model_view");
+	projection_loc = glGetUniformLocation(program, "projection");
+	
+	
 }
 
 

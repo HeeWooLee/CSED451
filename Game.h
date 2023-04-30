@@ -20,6 +20,7 @@ public:
 
 	GLuint ver_loc; /* attribute variable */
 	GLuint model_loc; /* uniform variable */
+	GLuint projection_loc; /* uniform variable */
 
 	Game();
 	void shaderInit();

@@ -10,7 +10,7 @@ private:
 
 protected:
 	float x, y;
-	GLuint ver_loc, model_loc, program;
+	GLuint ver_loc, model_loc, projection_loc, program;
 	GLuint buf, sizeVer;
 	GLuint sizeLineVer, sizeLineCol;
 	mat4 transform;
