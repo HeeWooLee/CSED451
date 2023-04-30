@@ -62,7 +62,6 @@ void reshape(int width, int height) {
 }
 
 void main(int argc, char** argv) {
-
 	init(argc, argv);
 	glutDisplayFunc(renderScene);
 	glutReshapeFunc(reshape);

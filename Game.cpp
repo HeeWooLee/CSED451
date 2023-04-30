@@ -27,7 +27,6 @@ void Game::init() {
 	character = new Character();
 	// star = new Star();
 	// fireball = new Fireball();
-	// mushroom = new Mushroom();
 }
 
 

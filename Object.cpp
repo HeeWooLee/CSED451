@@ -72,7 +72,7 @@ void Character::draw() {
 	*/
 	GLuint* buf = game->getModel()->character[0];
 	matStack.push(transform);
-	transform = Translate(0.0, game->prevBaseline, 0.0) * transform;
+	transform = Translate(0.0, game->nextBaseline, 0.0) * transform;
 	
 	draw_code(buf);
 	transform = matStack.top();
@@ -87,6 +87,7 @@ Cube::Cube() {
 	setSpeed(game->speed);
 	currStart = resetStart = getWidth() * -6.0;
 
+	mushroom = new Mushroom(resetStart);
 	initPosition( resetStart, game->baseline, game->getModel()->cubeInfo[0]);
 	game->baseline += getHeight() / 2;
 
@@ -124,10 +125,16 @@ void Cube::randomLevel() {
 void Cube::draw() {
 	GLuint* buf = game->getModel()->cube;
 	float width = getWidth();
+	float height = getHeight();
+
+	stack<mat4>* mushMatStack = mushroom->getMatStack();
+	deque<bool>* mushIsDrawn = mushroom->getIsDrawn();
 
 	/* renew start point of drawing */
 	if (currStart == resetStart) {
 		matStack.push(transform);
+
+		mushMatStack->push(mushroom->getTransform());
 	}
 	currStart += speed;
 	if (currStart < (resetStart - getWidth())) {
@@ -136,44 +143,64 @@ void Cube::draw() {
 		levels.push_back(levels.front());
 		levels.pop_front();
 
+		mushIsDrawn->push_back(mushIsDrawn->front());
+		mushIsDrawn->pop_front();
+
 		transform = matStack.top();
 		matStack.pop();
+
+		mushroom->setTransform(mushMatStack->top());
+		mushMatStack->pop();
 	}
 
 	/* draw terrain */
 	transform = Translate(speed, 0.0f, 0.0f) * transform;
 	matStack.push(transform);
 
+	mushroom->setTransform(Translate(speed, 0.0f, 0.0f) * mushroom->getTransform());
+	mushMatStack->push(mushroom->getTransform());
+
 	for (size_t i = 0; i < 20; i++) {
 		GLuint level = levels[i];
 		transform = Translate(width * i, 0.0, 0.0) * matStack.top();
 		matStack.push(transform);
+
+		mushroom->setTransform(Translate(width * i, 0.0, 0.0)* mushMatStack->top());
+		mushMatStack->push(mushroom->getTransform());
+
 		for (size_t j = 0; j < level; j++) {
-			transform = Translate(0.0, width * j, 0.0) * matStack.top();
+			transform = Translate(0.0, height * j, 0.0) * matStack.top();
 			draw_code(buf);
 		}
+		if (level != 0 && mushIsDrawn->at(i)) {
+			mushroom->setTransform(Translate(0.0, height * (level - 0.5) + mushroom->getHeight() / 2, 0.0) * mushMatStack->top());
+			mushroom->draw();
+		}
 		matStack.pop();
+		mushMatStack->pop();
 	}
 
 	transform = matStack.top();
 	matStack.pop();
 
+	mushroom->setTransform(mushMatStack->top());
+	mushMatStack->pop();
 	/* baseline update */
-	GLuint xIndex = ceil((game->getCharacter()->getX() - currStart - getWidth()/2) / getWidth());
-	game->baseline = game->initBaseline + (levels[xIndex] + 1) * getHeight() + getHeight() / 2;
-	game->prevBaseline  = game->initBaseline + (levels[xIndex-1] + 1) * getHeight() + getHeight() / 2;
+	GLuint xIndex = ceil((game->getCharacter()->getX() - currStart - getWidth()/2) / getWidth()) ;
+	game->baseline = game->initBaseline + (levels[xIndex]+1)  * getHeight() + getHeight() / 2;
+	game->nextBaseline  = game->initBaseline + (levels[xIndex+1]+1)  * getHeight() + getHeight() / 2;
 }
 
 /*
  * Star class
  */
 Star::Star() {
+	buf = game->getModel()->star;
 	setSize(game->getModel()->starInfo[1]);
 	transform = Translate(-game->getModel()->starInfo[0]) * transform;
 }
 
 void Star::draw() {
-	GLuint* buf = game->getModel()->star;
 	draw_code(buf);
 }
 
@@ -181,24 +208,37 @@ void Star::draw() {
  * Fireball class
  */
 Fireball::Fireball() {
+	buf = game->getModel()->fireball;
 	setSize(game->getModel()->fireballInfo[1]);
 	transform = Translate(-game->getModel()->fireballInfo[0]) * transform;
 }
 
 void Fireball::draw() {
-	GLuint* buf = game->getModel()->fireball;
 	draw_code(buf);
 }
 
 /*
  * Mushroom class
  */
-Mushroom::Mushroom() {
+Mushroom::Mushroom(float resetStart) {
+	buf = game->getModel()->mushroom;
 	setSize(game->getModel()->mushroomInfo[1]);
-	transform = Translate(-game->getModel()->mushroomInfo[0]) * transform;
+	initPosition(resetStart, game->baseline, game->getModel()->mushroomInfo[0]);
+
+	randomDrawn();
 }
 
 void Mushroom::draw() {
-	GLuint* buf = game->getModel()->mushroom;
 	draw_code(buf);
+}
+
+void Mushroom::randomDrawn() {
+	for (int i = 0; i < 20; i++) {
+		bool value = (rand() % 8 == 0);
+		isDrawn.push_back(value);
+	}
+}
+
+void Mushroom::setTransform(mat4 _transform) {
+	transform = _transform;
 }

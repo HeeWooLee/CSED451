@@ -16,7 +16,7 @@ private:
 public:
 	vec3 scale;
 	float speed;
-	float baseline, initBaseline, prevBaseline;
+	float baseline, initBaseline, nextBaseline;
 
 	GLuint ver_loc; /* attribute variable */
 	GLuint model_loc; /* uniform variable */

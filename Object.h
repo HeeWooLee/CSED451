@@ -11,7 +11,8 @@ private:
 protected:
 	float x, y;
 	GLuint ver_loc, model_loc, program;
-	GLuint buf, sizeVer;
+	GLuint sizeVer;
+	GLuint* buf;
 	GLuint sizeLineVer, sizeLineCol;
 	mat4 transform;
 	stack<mat4> matStack;
@@ -51,10 +52,25 @@ public:
 	void draw();
 };
 
+class Mushroom : public Object {
+private:
+	deque<bool> isDrawn;
+public:
+	Mushroom(float);
+	void draw();
+	void randomDrawn();
+
+	void setTransform(mat4);
+	stack<mat4>* getMatStack() { return &matStack; }
+	deque<bool>* getIsDrawn() { return &isDrawn; }
+	mat4 getTransform() { return transform; }
+};
+
 class Cube : public Object {
 private: 
 	float currStart, resetStart;
 	deque<GLuint> levels;
+	Mushroom* mushroom;
 public: 
 	Cube();
 	void randomLevel();
@@ -76,9 +92,3 @@ public:
 };
 
 
-class Mushroom : public Object {
-private:
-public:
-	Mushroom();
-	void draw();
-};
