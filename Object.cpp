@@ -5,7 +5,6 @@
 using namespace std;
 extern Game* game;
 
-
 Object::Object() {
 	x = 0; y = 0; width = 0; height = 0;
 	ver_loc = game->ver_loc;
@@ -72,7 +71,7 @@ void Character::draw() {
 	*/
 	GLuint* buf = game->getModel()->character[0];
 	matStack.push(transform);
-	transform = Translate(0.0, game->nextBaseline, 0.0) * transform;
+	transform = Translate(0.0, game->baseline, 0.0) * transform;
 	
 	draw_code(buf);
 	transform = matStack.top();
@@ -188,6 +187,13 @@ void Cube::draw() {
 	/* baseline update */
 	GLuint xIndex = ceil((game->getCharacter()->getX() - currStart - getWidth()/2) / getWidth()) ;
 	game->baseline = game->initBaseline + (levels[xIndex]+1)  * getHeight() + getHeight() / 2;
+	if (levels[xIndex] != 0 && mushIsDrawn->at(xIndex)
+		&&
+		(resetStart - width / 2.0 - mushroom->getWidth() / 2.0) < currStart &&
+		(resetStart - width / 2.0 + mushroom->getWidth() / 2.0) > currStart
+		)  {
+		game->baseline += mushroom->getHeight();
+	}
 	game->nextBaseline  = game->initBaseline + (levels[xIndex+1]+1)  * getHeight() + getHeight() / 2;
 }
 
