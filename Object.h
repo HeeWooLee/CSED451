@@ -3,7 +3,9 @@
 #include <vector>
 #include <deque>
 #include "Angel.h"
+
 using namespace std;
+
 class Object {
 private:
 	float width, height, depth;
@@ -29,7 +31,8 @@ public:
 	void setSpeed(float _speed);
 	void initPosition(float, float, vec3);
 	void draw_code(GLuint*);
-	//virtual void draw() = 0;
+	void drawOnGame();
+	virtual void draw() = 0;
 	//virtual void setSpeed(float _speed) = 0;
 	//virtual float getSpeed() = 0;
 	void move(float _x, float _y);
@@ -41,15 +44,23 @@ public:
 
 class Character : public Object {
 private:
-	int state;
+	int state; // 0: walking, 1: jumping, 2: falling, 3: hole
 	stack<mat4> matStack;
 	int count, frame;
+	float jumpLimit, actualLimit;
+	bool init;
+
 	int upDown;
 	int direction; // 0, -1 -> left, 1 ->right
 
 public:
 	Character();
 	void draw();
+	void initDraw();
+	void frameSelection();
+	void setJumping();
+
+	int getState() { return state; }
 };
 
 class Mushroom : public Object {
@@ -86,9 +97,15 @@ public:
 
 class Fireball : public Object {
 private:
+	deque<vec3> firePos;
+	float startPos;
 public:
 	Fireball();
 	void draw();
+	void randomGen();
+
+	float getStartPos() { return startPos; }
+	deque<vec3>* getFirePos() { return &firePos; }
 };
 
 

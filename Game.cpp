@@ -1,8 +1,9 @@
 #include "Game.h"
 
 Game::Game() {
+	onGame = true;
 	scale = vec3(0.001f, 0.001f, 0.001f);
-	speed = -0.0001f;
+	speed = -0.0002f;
 	baseline = initBaseline = -0.5f;
 }
 
@@ -26,15 +27,20 @@ void Game::init() {
 	cube = new Cube();
 	character = new Character();
 	// star = new Star();
-	// fireball = new Fireball();
+	fireball = new Fireball();
 }
 
 
 
 void Game::drawAll() {
-	character->draw();
+	// cout << "onGame before " << onGame << endl;
 	cube->draw();
+	character->draw();
 	// star->draw();
-	// fireball->draw();
-	// mushroom->draw();
+	fireball->draw();
+	// cout << "onGame after " << onGame << endl;
+}
+
+void Game::setOnGame(bool _onGame) {
+	onGame = _onGame;
 }

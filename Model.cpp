@@ -18,7 +18,7 @@ Model::Model() {
      load("meshes/character_pose1.obj", character[0], characterInfo[0]);
      // load("meshes/character_pose2.obj", character[1], characterInfo[1]);
      // load("meshes/character_pose3.obj", character[2], characterInfo[2]);
-     //   load("meshes/fireball.obj", fireball, fireballInfo);
+     load("meshes/fireball.obj", fireball, fireballInfo);
      //  load("meshes/star.obj", star, starInfo);
      load("meshes/Mushroom.obj", mushroom, mushroomInfo);
      load("meshes/cube.obj", cube, cubeInfo);
