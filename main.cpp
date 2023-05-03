@@ -5,7 +5,7 @@
 using namespace std;
 
 Game* game;
-
+deque<float> starVis;
 
 bool isCollision(float x, float y, float sizeX, float sizeY) {
 	/* character info */
@@ -57,6 +57,21 @@ void gameOverChecker() {
 		float fy = FirePos->at(i).y;
 		if (isCollision(fx, fy, FireballWidth, FireballHeight)) {
 			game->setOnGame(false);
+		}
+	}
+
+	/* star collision checker */
+	deque<vec3>* StarPos = game->getStar()->getStarPos();
+	float StarStartPos = game->getStar()->getStartPos();
+	float StarWidth = game->getStar()->getWidth();
+	float c = game->getStar()->getHeight();
+	for (size_t i = 0; i < StarPos->size(); i++) {
+		float sx = StarStartPos + StarPos->at(i).x;
+		float sy = StarPos->at(i).y;
+		if (starVis[i] == 1.0 && isCollision(sx, sy, StarWidth, StarWidth)) {
+			game->addScore(5);
+			starVis[i] = 0.0;
+			cout << "score added" << endl;
 		}
 	}
 

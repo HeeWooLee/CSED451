@@ -12,11 +12,12 @@ private:
 
 protected:
 	float x, y;
-	GLuint ver_loc, model_loc, program;
+	GLuint ver_loc, model_loc, color_loc, alpha_loc,program;
 	GLuint sizeVer;
 	GLuint* buf;
 	GLuint sizeLineVer, sizeLineCol;
 	mat4 transform;
+	float alpha;
 	stack<mat4> matStack;
 	float speed;
 	int sizeDraw, sizeLineDraw;
@@ -31,7 +32,6 @@ public:
 	void setSpeed(float _speed);
 	void initPosition(float, float, vec3);
 	void draw_code(GLuint*);
-	void drawOnGame();
 	virtual void draw() = 0;
 	//virtual void setSpeed(float _speed) = 0;
 	//virtual float getSpeed() = 0;
@@ -56,7 +56,6 @@ private:
 public:
 	Character();
 	void draw();
-	void initDraw();
 	void frameSelection();
 	void setJumping();
 
@@ -90,9 +89,15 @@ public:
 
 class Star : public Object {
 private:
+	deque<vec3> starPos;
+	float startPos;
 public:
 	Star();
+	void randomGen();
 	void draw();
+
+	float getStartPos() { return startPos; }
+	deque<vec3>* getStarPos() { return &starPos; }
 };
 
 class Fireball : public Object {

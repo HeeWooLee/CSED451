@@ -5,6 +5,7 @@ Game::Game() {
 	scale = vec3(0.001f, 0.001f, 0.001f);
 	speed = -0.0002f;
 	baseline = initBaseline = -0.5f;
+	score = 0;
 }
 
 void Game::shaderInit() {
@@ -18,7 +19,11 @@ void Game::shaderInit() {
 	ver_loc = glGetAttribLocation(program, "vPosition");
 	glEnableVertexAttribArray(ver_loc);
 
+	color_loc = glGetAttribLocation(program, "aColor");
+	glEnableVertexAttribArray(color_loc);
+
 	model_loc = glGetUniformLocation(program, "model_view");
+	alpha_loc = glGetUniformLocation(program, "alpha");
 }
 
 
@@ -26,21 +31,22 @@ void Game::init() {
 	model = new Model();
 	cube = new Cube();
 	character = new Character();
-	// star = new Star();
+	star = new Star();
 	fireball = new Fireball();
 }
 
 
 
 void Game::drawAll() {
-	// cout << "onGame before " << onGame << endl;
 	cube->draw();
 	character->draw();
-	// star->draw();
+	star->draw();
 	fireball->draw();
-	// cout << "onGame after " << onGame << endl;
 }
 
 void Game::setOnGame(bool _onGame) {
 	onGame = _onGame;
+}
+void Game::addScore(int _score) {
+	score += _score;
 }

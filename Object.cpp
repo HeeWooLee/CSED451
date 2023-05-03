@@ -4,14 +4,17 @@
 #include "Game.h"
 using namespace std;
 extern Game* game;
-
+extern deque<float> starVis;
 
 Object::Object() {
 	x = 0; y = 0; width = 0; height = 0;
 	ver_loc = game->ver_loc;
+	color_loc = game->color_loc;
 	model_loc = game->model_loc;
+	alpha_loc = game->alpha_loc;
 	program = game->getProgram();
 	transform = Scale(game->scale) * mat4(1.0f);
+	alpha = 1.0f;
 }
 
 void Object::set(float _x, float _y, float _width, float _height) {
@@ -43,18 +46,12 @@ void Object::initPosition(float _x, float _y, vec3 modelCenter) {
 void Object::draw_code(GLuint* buf) {
 	glBindBuffer(GL_ARRAY_BUFFER, buf[0]);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buf[1]);
-	glVertexAttribPointer(ver_loc, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glVertexAttribPointer(ver_loc, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+	glVertexAttribPointer(color_loc, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(buf[3]));
 	glUniformMatrix4fv(model_loc, 1, GL_TRUE, transform);
-	glDrawElements(GL_TRIANGLES, buf[2], GL_UNSIGNED_INT, 0);
-}
+	glUniform1f(alpha_loc, alpha);
 
-void Object::drawOnGame() {
-	if (game->getOnGame()) {
-		draw();
-	}
-	else {
-		draw_code(buf);
-	}
+	glDrawElements(GL_TRIANGLES, buf[2], GL_UNSIGNED_INT, 0);
 }
 
 void Object::move(float _x, float _y) {
@@ -79,13 +76,7 @@ Character::Character() {
 
 }
 
-void Character::initDraw() {
-	draw_code(buf);
-}
-
 void Character::draw() {
-	//cout << "Character on Game  " << game->getOnGame() << endl;
-	//cout << "Character speed " << speed << endl;
 	float halfHeight = getHeight() / 2.0;
 	float PosY = getY();
 	float baseline = game->baseline;
@@ -93,7 +84,7 @@ void Character::draw() {
 	float baselineChange = baseline - initPosY;
 	/* frame selection */
 	frameSelection();
-	frame = 0;
+
 	speed = game->getOnGame() ? speed : 0;
 	matStack.push(transform);
 
@@ -228,9 +219,6 @@ void Cube::randomLevel() {
 }
 
 void Cube::draw() {
-
-	//cout << "cube on Game  " << game->getOnGame() << endl;
-	//cout << "cube speed " << speed << endl;
 	float width = getWidth();
 	float height = getHeight();
 
@@ -314,12 +302,58 @@ void Cube::draw() {
  */
 Star::Star() {
 	buf = game->getModel()->star;
+	startPos = -1.5f;
+	setSpeed(game->speed);
 	setSize(game->getModel()->starInfo[1]);
-	transform = Translate(-game->getModel()->starInfo[0]) * transform;
+	initPosition(startPos, 0.0, game->getModel()->starInfo[0]);
+
+	for (size_t i = 0; i < 5; i++) {
+		randomGen();
+	}
+
 }
 
 void Star::draw() {
-	draw_code(buf);
+	float width = getWidth();
+	float height = getHeight();
+	speed = game->getOnGame() ? speed : 0.0;
+
+
+	matStack.push(transform);
+
+	/* draw fireballs */
+	for (size_t i = 0; i < 4; i++) {
+		transform = Translate(starPos[i].x, 0.0, 0.0) * matStack.top();
+		matStack.push(transform);
+		transform = Translate(0.0, starPos[i].y, starPos[i].z) * transform;
+		alpha = starVis[i] ;
+		if (alpha == 0) {
+			cout << "should be transparent" << endl;
+		}
+		draw_code(buf);
+
+		/* update if fireball is out of viewport */
+		starPos[i].x += speed;
+		if (starPos[i].x < 0.0) {
+			starPos.pop_front();
+			starVis.pop_front();
+			randomGen();
+		}
+
+		matStack.pop();
+	}
+
+	transform = matStack.top();
+	matStack.pop();
+}
+
+
+void Star::randomGen() {
+	float _x = (rand() % 5 + 4) / 10.0;
+	float x = starPos.empty() ? _x : starPos.back().x + _x;
+	float y = ((rand() % 5) * 2) / 10.0;
+	starPos.push_back(vec3(x, y, 0.0));
+	starVis.push_back(1.0f);
 }
 
 /*
@@ -338,8 +372,6 @@ Fireball::Fireball() {
 }
 
 void Fireball::draw() {
-	//cout << "Fireball on Game  " << game->getOnGame() << endl;
-	//cout << "Fireball speed " << speed << endl;
 	float width = getWidth();
 	float height = getHeight();
 	speed = game->getOnGame() ? speed : 0.0;

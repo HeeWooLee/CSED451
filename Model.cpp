@@ -10,23 +10,27 @@ extern Game* game;
 float minX = FLT_MAX, minY = FLT_MAX, minZ = FLT_MAX;
 float maxX = -FLT_MAX, maxY = -FLT_MAX, maxZ = -FLT_MAX;
 
-struct Vertex {
-    vec3 position;
-};
+vec3 purple = (0.5, 0.0, 0.5);
+vec3 yellow = (1.0, 1.0, 0.0);
+vec3 red = (1.0, 0.0, 0.0);
+vec3 green = (0.0, 1.0, 0.0);
+vec3 brown = (0.647, 0.165, 0.165);
+
 
 Model::Model() {
-     load("meshes/character_pose1.obj", character[0], characterInfo[0]);
-     // load("meshes/character_pose2.obj", character[1], characterInfo[1]);
-     // load("meshes/character_pose3.obj", character[2], characterInfo[2]);
-     load("meshes/fireball.obj", fireball, fireballInfo);
-     //  load("meshes/star.obj", star, starInfo);
-     load("meshes/Mushroom.obj", mushroom, mushroomInfo);
-     load("meshes/cube.obj", cube, cubeInfo);
+     load("meshes/character_pose1.obj", character[0], characterInfo[0], purple);
+     load("meshes/character_pose2.obj", character[1], characterInfo[1], purple);
+     load("meshes/character_pose3.obj", character[2], characterInfo[2], purple);
+     load("meshes/fireball.obj", fireball, fireballInfo, red);
+     load("meshes/star.obj", star, starInfo, yellow);
+     load("meshes/Mushroom.obj", mushroom, mushroomInfo, brown);
+     load("meshes/cube.obj", cube, cubeInfo, green);
 }
 
-void Model::load (const string& filename, GLuint* buf, vec3* info)
+void Model::load (const string& filename, GLuint* buf, vec3* info, vec3 _color)
 {
-    vector<Vertex> vertex_positions;
+    vector<vec3> vertex_positions;
+    vector<vec3> colors ;
     vector<vec2> texture_coordinates;
     vector<vec3> vertex_normals;
     vector<GLuint> face_position_indices;
@@ -47,7 +51,7 @@ void Model::load (const string& filename, GLuint* buf, vec3* info)
         if (keyword == "v") {
             vec3 pos;
             ss >> pos.x >> pos.y >> pos.z;
-            Vertex vertex;
+            vec3 vertex;
             /* match character mesh into one place */
             if (filename == "meshes/character_pose2.obj") {
                 pos.x -= 103.712;
@@ -55,7 +59,7 @@ void Model::load (const string& filename, GLuint* buf, vec3* info)
             else if (filename == "meshes/character_pose3.obj") {
                 pos.x -= 230.289;
             }
-            vertex.position = pos;
+            vertex = pos;
             vertex_positions.emplace_back(vertex);
             /*for (int i = 0; i < 3; i++) {
                 vertex_positions.emplace_back(pos[i]);
@@ -114,7 +118,7 @@ void Model::load (const string& filename, GLuint* buf, vec3* info)
 
     /* check model center & size */
     for (int i = 0; i < vertex_positions.size(); i++) {
-        vec3 pos = vertex_positions[i].position;
+        vec3 pos = vertex_positions[i];
         if (pos.x < minX) minX = pos.x;
         if (pos.y < minY) minY = pos.y;
         if (pos.z < minZ) minZ = pos.z;
@@ -129,8 +133,13 @@ void Model::load (const string& filename, GLuint* buf, vec3* info)
     info[0] = game->scale * modelCenter;
     info[1] = game->scale * modelSize;
 
+
+    buf[3] = vertex_positions.size();
+    colors.assign(buf[3], _color);
+
     cout << "FILENAME: " << filename << endl;
     cout << "vertex_positions size: " << vertex_positions.size() << endl;
+    cout << "colors size: " << colors.size() << endl;
     cout << "texture_coordinates size: " << texture_coordinates.size() << endl;
     cout << "vertex_normals size: " << vertex_normals.size() << endl;
     cout << "face_position_indices size: " << face_position_indices.size() << endl;
@@ -138,10 +147,15 @@ void Model::load (const string& filename, GLuint* buf, vec3* info)
     cout << "face_normal_indices size: " << face_normal_indices.size() << endl;
     cout << endl;
 
+    int vertex_size = buf[3] * sizeof(vec3);
+    int color_size = buf[3] * sizeof(vec3);
 
     glGenBuffers(1, &buf[0]);
     glBindBuffer(GL_ARRAY_BUFFER, buf[0]);
-    glBufferData(GL_ARRAY_BUFFER, vertex_positions.size() * sizeof(Vertex), &vertex_positions[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertex_size  + color_size , NULL, GL_STATIC_DRAW);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, vertex_size , vertex_positions.front());
+    glBufferSubData(GL_ARRAY_BUFFER, vertex_size , color_size , colors.front());
+
 
     glGenBuffers(1, &buf[1]);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buf[1]);
@@ -162,6 +176,7 @@ void Model::load (const string& filename, GLuint* buf, vec3* info)
     face_position_indices.clear();
     face_texture_indices.clear();
     face_normal_indices.clear();
+    colors.clear();
 
     /* reinitialize size checker */
     minX = FLT_MAX, minY = FLT_MAX, minZ = FLT_MAX;
