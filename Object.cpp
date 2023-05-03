@@ -49,8 +49,7 @@ void Object::draw_code(GLuint* buf) {
 	glVertexAttribPointer(ver_loc, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 	glVertexAttribPointer(color_loc, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(buf[3]));
 	glUniformMatrix4fv(model_loc, 1, GL_TRUE, transform);
-	glUniform1f(alpha_loc, alpha);
-
+	glUniform1f(glGetUniformLocation(program, "alpha") , alpha);
 	glDrawElements(GL_TRIANGLES, buf[2], GL_UNSIGNED_INT, 0);
 }
 

@@ -102,7 +102,9 @@ void init(int argc, char** argv) {
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LINE_SMOOTH);
-	glDepthFunc(GL_LEQUAL);	
+	glDepthFunc(GL_LEQUAL);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	game = new Game();
 	game->shaderInit();
 	game->init();
