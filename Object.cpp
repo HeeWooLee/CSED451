@@ -45,15 +45,16 @@ void Object::initPosition(float _x, float _y, vec3 modelCenter) {
 }
 
 void Object::draw_code(GLuint* buf) {
+	int sizeVer = buf[3] * sizeof(vec3);
+	int sizeCol = buf[3] * sizeof(vec3);
 	glBindBuffer(GL_ARRAY_BUFFER, buf[0]);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buf[1]);
 	glVertexAttribPointer(ver_loc, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-	glVertexAttribPointer(color_loc, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(buf[3]));
-	glVertexAttribPointer(tex_loc, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(buf[3]));
+	glVertexAttribPointer(color_loc, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeVer));
+	glVertexAttribPointer(tex_loc, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeVer + sizeCol));
 	glUniformMatrix4fv(model_loc, 1, GL_TRUE, transform);
 	glUniform1f(glGetUniformLocation(program, "alpha"), alpha);
-
-	glDrawElements(GL_TRIANGLES, buf[2], GL_UNSIGNED_INT, 0);
+	glDrawArrays(GL_TRIANGLES, 0, buf[1]);
 }
 
 void Object::move(float _x, float _y) {

@@ -39,13 +39,14 @@ Model::Model() {
 
 void Model::load (const string& filename, GLuint* buf, vec3* info, vec3 _color)
 {
-    vector<vec3> vertex_positions;
-    vector<vec3> colors ;
-    vector<vec2> texture_coordinates;
-    vector<vec3> vertex_normals;
-    vector<GLuint> face_position_indices;
-    vector<vec3> face_texture_indices;
-    vector<GLuint> face_normal_indices;
+
+    vector<vec3> v;
+    vector<vec3> color ;
+    vector<vec2> vt;
+    vector<vec3> vn;
+    vector<vec3> vec;
+    vector<vec2> tex;
+    vector<vec3> normal;
 
     ifstream ifs(filename);
     if (!ifs.is_open()) {
@@ -61,7 +62,6 @@ void Model::load (const string& filename, GLuint* buf, vec3* info, vec3 _color)
         if (keyword == "v") {
             vec3 pos;
             ss >> pos.x >> pos.y >> pos.z;
-            vec3 vertex;
             /* match character mesh into one place */
             if (filename == "meshes/character_pose2.obj") {
                 pos.x -= 103.712;
@@ -69,8 +69,7 @@ void Model::load (const string& filename, GLuint* buf, vec3* info, vec3 _color)
             else if (filename == "meshes/character_pose3.obj") {
                 pos.x -= 230.289;
             }
-            vertex = pos;
-            vertex_positions.emplace_back(vertex);
+            v.emplace_back(pos);
             /*for (int i = 0; i < 3; i++) {
                 vertex_positions.emplace_back(pos[i]);
             }*/
@@ -78,12 +77,12 @@ void Model::load (const string& filename, GLuint* buf, vec3* info, vec3 _color)
         else if (keyword == "vt") {
             vec2 tex_coord;
             ss >> tex_coord.x >> tex_coord.y;
-            texture_coordinates.emplace_back(tex_coord);
+            vt.emplace_back(tex_coord);
         }
         else if (keyword == "vn") {
             vec3 normal;
             ss >> normal.x >> normal.y >> normal.z;
-            vertex_normals.emplace_back(normal);
+            vn.emplace_back(normal);
         }
         else if (keyword == "f") {
             string face_data;
@@ -107,19 +106,13 @@ void Model::load (const string& filename, GLuint* buf, vec3* info, vec3 _color)
                 }
 
                 // vertex position index
-                face_pos_idx[i] = stoi(index_data[0]) - 1;
-
+                vec.emplace_back(v[stoi(index_data[0]) - 1]);
                 // vertex texture index
-                face_tex_idx[i] = stoi(index_data[1]) - 1;
-
+                tex.emplace_back(vt[stoi(index_data[1]) - 1]);
                 // vertex normal index
-                face_norm_idx[i] = stoi(index_data[2]) - 1;
-            }
-
-            for (int i = 0; i < 3; i++) {
-                face_position_indices.emplace_back(face_pos_idx[i]);
-                face_texture_indices.emplace_back(face_tex_idx[i]);
-                face_normal_indices.emplace_back(face_norm_idx[i]);
+                normal.emplace_back(vn[stoi(index_data[2]) - 1]);
+                // color
+                color.emplace_back(_color);
             }
         }
     }
@@ -127,8 +120,8 @@ void Model::load (const string& filename, GLuint* buf, vec3* info, vec3 _color)
     ifs.close();
 
     /* check model center & size */
-    for (int i = 0; i < vertex_positions.size(); i++) {
-        vec3 pos = vertex_positions[i];
+    for (int i = 0; i < v.size(); i++) {
+        vec3 pos = v[i];
         if (pos.x < minX) minX = pos.x;
         if (pos.y < minY) minY = pos.y;
         if (pos.z < minZ) minZ = pos.z;
@@ -144,52 +137,47 @@ void Model::load (const string& filename, GLuint* buf, vec3* info, vec3 _color)
     info[1] = game->scale * modelSize;
 
 
-    buf[3] = vertex_positions.size();
-    colors.assign(buf[3], _color);
+    buf[1] = vec.size();
+    // colors.assign(buf[3], _color);
 
+    buf[3] = vec.size();
     cout << "FILENAME: " << filename << endl;
-    cout << "vertex_positions size: " << vertex_positions.size() << endl;
-    cout << "colors size: " << colors.size() << endl;
-    cout << "texture_coordinates size: " << texture_coordinates.size() << endl;
-    cout << "vertex_normals size: " << vertex_normals.size() << endl;
-    cout << "face_position_indices size: " << face_position_indices.size() << endl;
-    cout << "face_texture_indices size: " << face_texture_indices.size() << endl;
-    cout << "face_normal_indices size: " << face_normal_indices.size() << endl;
+    cout << "vertex_positions size: " << v.size() << endl;
+    cout << "colors size: " << color.size() << endl;
+    cout << "texture_coordinates size: " << vt.size() << endl;
+    cout << "vertex_normals size: " << vn.size() << endl;
+    cout << "face_position_indices size: " << vec.size() << endl;
+    cout << "face_texture_indices size: " << tex.size() << endl;
+    cout << "face_normal_indices size: " << normal.size() << endl;
     cout << endl;
 
-    int vertexSize = buf[3] * sizeof(vec3);
-    int colorSize = buf[3] * sizeof(vec3);
-    int textureSize = buf[3] * sizeof(vec2);
-    int normalSize = buf[3] * sizeof(vec3);
+    int vertexSize = buf[1] * sizeof(vec3);
+    int colorSize = buf[1] * sizeof(vec3);
+    int textureSize = buf[1] * sizeof(vec2);
+    int normalSize = buf[1] * sizeof(vec3);
 
     glGenBuffers(1, &buf[0]);
     glBindBuffer(GL_ARRAY_BUFFER, buf[0]);
     glBufferData(GL_ARRAY_BUFFER, vertexSize + colorSize + textureSize + normalSize , NULL, GL_STATIC_DRAW);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, vertexSize , vertex_positions.front());
-    glBufferSubData(GL_ARRAY_BUFFER, vertexSize , colorSize , colors.front());
-    glBufferSubData(GL_ARRAY_BUFFER, vertexSize + colorSize, textureSize, texture_coordinates.front());
-    glBufferSubData(GL_ARRAY_BUFFER, vertexSize + colorSize + textureSize, normalSize, vertex_normals.front());
+    glBufferSubData(GL_ARRAY_BUFFER, 0, vertexSize , vec.front());
+    glBufferSubData(GL_ARRAY_BUFFER, vertexSize , colorSize , color.front());
+    glBufferSubData(GL_ARRAY_BUFFER, vertexSize + colorSize, textureSize, tex.front());
+    glBufferSubData(GL_ARRAY_BUFFER, vertexSize + colorSize + textureSize, normalSize, normal.front());
 
-    glGenBuffers(1, &buf[1]);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buf[1]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, face_position_indices.size() * sizeof(GLuint), &face_position_indices[0], GL_STATIC_DRAW);
 
     if (buf[0] == 0) {
         cout << filename << " VBO genertaion FAIL" << endl;
     }
-    if (buf[1] == 0) {
-        cout << filename << " EBO genertaion FAIL" << endl;
-    }
 
-    buf[2] = face_position_indices.size();
+    buf[2] = vec.size();
 
-    vertex_positions.clear();
-    texture_coordinates.clear();
-    vertex_normals.clear();
-    face_position_indices.clear();
-    face_texture_indices.clear();
-    face_normal_indices.clear();
-    colors.clear();
+    v.clear();
+    vt.clear();
+    vn.clear();
+    vec.clear();
+    tex.clear();
+    normal.clear();
+    color.clear();
 
     /* reinitialize size checker */
     minX = FLT_MAX, minY = FLT_MAX, minZ = FLT_MAX;
