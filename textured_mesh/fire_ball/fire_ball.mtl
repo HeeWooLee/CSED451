@@ -1,0 +1,5 @@
+﻿newmtl M_ContentWindow
+	map_Kd M_ContentWindow_D.bmp
+	map_Ks M_ContentWindow_S.bmp
+	bump M_ContentWindow_N.bmp
+

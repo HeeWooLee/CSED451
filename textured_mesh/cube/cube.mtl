@@ -1,0 +1,3 @@
+﻿newmtl BasicShapeMaterial
+	map_Kd BasicShapeMaterial_D.bmp	
+
