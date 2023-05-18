@@ -49,7 +49,6 @@ private:
 	Star* star;
 	Fireball* fireball;
 	Mushroom* mushroom;
-	bool onGame;
 
 	vec4 light_position;
 	vec4 diffuseProduct = vec4(0.7, 0.7, 0.7, 0.0);
@@ -60,7 +59,9 @@ private:
 	float specularPower;
 	int score;
 public:
+	bool onGame;
 	GLuint program;
+	int PhongShadingMode;
 	vec3 scale;
 	float speed;
 	float baseline, initBaseline, nextBaseline;

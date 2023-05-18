@@ -25,6 +25,8 @@ Game::Game() {
 		vec3(-1.0f, -1.0f, 1.0f),
 		0.1f
 	);
+	PhongShadingMode=1;
+
 }
 
 void Game::shaderInit() {
@@ -55,7 +57,7 @@ void Game::shaderInit() {
 
 	//model_loc = glGetUniformLocation(program, "model_view");
 	//projection_loc = glGetUniformLocation(program, "projection");
-	//alpha_loc = glGetUniformLocation(program, "alpha");
+	alpha_loc = glGetUniformLocation(program, "alpha");
 
 	//light_loc = glGetUniformLocation(program, "LightPosition");
 	//shadingMode_loc = glGetUniformLocation(program, "ShadingMode");
@@ -102,13 +104,15 @@ void Game::shaderInit() {
 	glUniform1i(glGetUniformLocation(program, "texture_sampler"), 0);
 	/* normal map */
 	glUniform1i(glGetUniformLocation(program, "norm_sampler"), 1);
+	glUniform1i(glGetUniformLocation(program, "specular_sampler"), 2);
+	glUniform1i(glGetUniformLocation(program, "PhongShadingMode"), PhongShadingMode);
 }
 
 
 void Game::init() {
 	model = new Model();
-	 // cube = new Cube();
-	// character = new Character();
+	 cube = new Cube();
+	character = new Character();
 	star = new Star();
 	fireball = new Fireball();
 }
@@ -116,8 +120,8 @@ void Game::init() {
 
 
 void Game::drawAll() {
-	// cube->draw();
-	//character->draw();
+	 cube->draw();
+	character->draw();
 	star->draw();
 	fireball->draw();
 }

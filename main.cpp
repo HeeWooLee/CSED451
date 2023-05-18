@@ -9,6 +9,27 @@ mat4 projection;
 int currentViewMode = 1;
 deque<float> starVis;
 
+void rotatePoint(float& x, float& y, float centerX, float centerY, float angle) {
+	// 라디안 단위로 각도를 변환
+	float radians = angle * (M_PI / 180.0);
+
+	// 주어진 점을 중심으로 회전하는 변환 수행
+	float cosAngle = std::cos(radians);
+	float sinAngle = std::sin(radians);
+
+	// 점의 좌표를 중심으로 이동하여 회전 수행
+	float translatedX = x - centerX;
+	float translatedY = y - centerY;
+
+	// 회전 수행
+	float rotatedX = translatedX * cosAngle - translatedY * sinAngle;
+	float rotatedY = translatedX * sinAngle + translatedY * cosAngle;
+
+	// 다시 원래 좌표계로 되돌리기 위해 중심 좌표를 더해줌
+	x = rotatedX + centerX;
+	y = rotatedY + centerY;
+}
+
 bool isCollision(float x, float y, float sizeX, float sizeY) {
 	/* character info */
 	float cx = game->getCharacter()->getX();
@@ -126,7 +147,7 @@ void renderScene(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // wire frame mode
 	game->drawAll();
-	// gameOverChecker();
+	 gameOverChecker();
 
 	glutSwapBuffers();
 	glutPostRedisplay();
@@ -150,10 +171,6 @@ void reshape(int width, int height) {
 	}
 }
 
-
-
-
-
 void keyboard(unsigned char key, int x, int y) {
 	switch (key) {
 	case ' ':
@@ -171,8 +188,18 @@ void keyboard(unsigned char key, int x, int y) {
 		currentViewMode = 3;
 		reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 		break;
+	case 'g':
+		game->PhongShadingMode = 0;
+		cout << "Gouraud" << endl;
+		break;
+	case 'p':
+		game->PhongShadingMode = 1;
+		cout << "Phong" << endl;
+		break;
 	}
 }
+
+
 void update(int value) {
 	// Third-person perspective view 
 	if (currentViewMode == 1) {

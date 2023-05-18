@@ -104,7 +104,7 @@ void Object::draw_code(GLuint* buf) {
 	glVertexAttribPointer(normal_loc, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeVer + sizeCol + sizeTex));
 
 	glUniformMatrix4fv(model_loc, 1, GL_TRUE, transform);
-	// glUniform1f(glGetUniformLocation(program, "alpha"), alpha);
+	glUniform1f(glGetUniformLocation(program, "alpha"), alpha);
 
 	/* */
 
@@ -240,8 +240,10 @@ void Character::frameSelection() {
 	if (state != 0) {
 		frame = 0;
 	}
-
-	frame = 0;
+	if (game->onGame == false) {
+		frame = 0;
+	}
+	// frame = 0;
 }
 
 void Character::setJumping() {
@@ -424,7 +426,7 @@ Star::Star() {
 	);
 
 	/* MOVE 2 FIREBALL */
-	// normalMapMode = 1;
+	// normalMapMode = 0;
 }
 
 void Star::draw() {
@@ -436,8 +438,8 @@ void Star::draw() {
 
 
 	///* MOVE 2 FIREBALL */
-	 //  glActiveTexture(GL_TEXTURE1);
-	  // game->getModel()->normalmap_fireball.bind();
+	 // glActiveTexture(GL_TEXTURE1);
+	 // game->getModel()->normalmap_fireball.bind();
 	
 	/* draw fireballs */
 	for (size_t i = 0; i < 4; i++) {
@@ -460,7 +462,7 @@ void Star::draw() {
 
 	/* MOVE 2 FIREBALL */
 	/* unbind texture */
-	//  glBindTexture(GL_TEXTURE_2D, 0);
+	// glBindTexture(GL_TEXTURE_2D, 0);
 
 	transform = matStack.top();
 	matStack.pop();
@@ -509,6 +511,8 @@ void Fireball::draw() {
 
 	glActiveTexture(GL_TEXTURE1);
 	game->getModel()->normalmap_fireball.bind();
+	glActiveTexture(GL_TEXTURE2);
+	game->getModel()->texture_fireball[1].bind();
 
 	matStack.push(transform);
 

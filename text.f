@@ -4,6 +4,7 @@ in vec2 outTexCoord;
 in vec3 mvVertexNormal;
 in vec3 mvVertexPos;
 in mat3 TBN;
+in vec4 light;
 
 out vec4 fragColor;
 
@@ -39,12 +40,16 @@ struct Material
 
 uniform sampler2D texture_sampler;
 uniform sampler2D norm_sampler;
+uniform sampler2D specular_sampler;
 uniform vec3 ambientLight;
 uniform float specularPower;
 uniform Material material;
 uniform PointLight pointLight;
 uniform DirectionalLight directionalLight;
 uniform int normalMapMode; 
+uniform int PhongShadingMode; 
+uniform float alpha;
+
 uniform vec3 col;
 
 vec4 calcLightColour(vec3 light_colour, float light_intensity, vec3 position, vec3 to_light_dir, vec3 normal)
@@ -57,12 +62,23 @@ vec4 calcLightColour(vec3 light_colour, float light_intensity, vec3 position, ve
     diffuseColour = vec4(light_colour, 1.0) * light_intensity * diffuseFactor;
 
     // Specular Light
+    
     vec3 camera_direction = normalize(-position);
     vec3 from_light_dir = -to_light_dir;
     vec3 reflected_light = normalize(reflect(from_light_dir , normal));
+     if (normalMapMode == 1)
+     {
+    vec3 specularMapColor = texture(specular_sampler, outTexCoord).rgb;
+    float spec = pow(max(dot(camera_direction, reflected_light), 0.0), specularMapColor.x);
+    specColour = spec * specularMapColor.y * vec4(1.0);
+     }
+     else
+     {
     float specularFactor = max( dot(camera_direction, reflected_light), 0.0);
     specularFactor = pow(specularFactor, specularPower);
     specColour = light_intensity  * specularFactor * material.reflectance * vec4(light_colour, 1.0);
+
+     }
 
     return (diffuseColour + specColour);
 }
@@ -91,6 +107,7 @@ void main()
 
     vec4 baseColour;
 	vec3 normal;
+    vec4 totalLight ;
      if ( material.useColour == 1 )
     {
         baseColour = vec4(material.colour, 1);
@@ -110,9 +127,17 @@ void main()
      {
          normal = mvVertexNormal;
      }
-    vec4 totalLight = vec4(ambientLight.rgb, 1.0);
+
+     if (PhongShadingMode==1) {
+    totalLight = vec4(ambientLight.rgb, 1.0);
     totalLight += calcDirectionalLight(directionalLight, mvVertexPos, normal);
     totalLight += calcPointLight(pointLight, mvVertexPos, normal); 
+     
+     }
+     else {
+     totalLight = light;
+     }
     fragColor = baseColour * totalLight;
+    fragColor.a = alpha;
    //fragColor = baseColour;
 }

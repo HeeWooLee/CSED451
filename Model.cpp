@@ -18,20 +18,20 @@ vec3 brownb = vec3(0.647, 0.165, 0.165);
 
 
 Model::Model() {
-    // load("meshes/character_pose1.obj", character[0], characterInfo[0], purplep);
-    //load("meshes/character_pose2.obj", character[1], characterInfo[1], purplep);
-    //load("meshes/character_pose3.obj", character[2], characterInfo[2], purplep);
+     load("meshes/character_pose1.obj", character[0], characterInfo[0], purplep);
+    load("meshes/character_pose2.obj", character[1], characterInfo[1], purplep);
+    load("meshes/character_pose3.obj", character[2], characterInfo[2], purplep);
 
     normalmap_fireball.load("textured_mesh/fire_ball/M_ContentWindow_N.bmp");
-    // load("meshes/fireball.obj", fireball, fireballInfo, redr);
+     load("meshes/fireball.obj", fireball, fireballInfo, redr);
      texture_fireball[0].load("textured_mesh/fire_ball/M_ContentWindow_D.bmp");
-    // texture_fireball[1].load("textured_mesh/fire_ball/M_ContentWindow_S.bmp");
+     texture_fireball[1].load("textured_mesh/fire_ball/M_ContentWindow_S.bmp");
 
     load("meshes/star.obj", star, starInfo, yellowy);
 
-    //   load("meshes/Mushroom.obj", mushroom, mushroomInfo, brownb);
+    load("meshes/Mushroom.obj", mushroom, mushroomInfo, brownb);
 
-       //   load("meshes/cube.obj", cube, cubeInfo, greeng);
+       load("meshes/cube.obj", cube, cubeInfo, greeng);
 
 
     texture_cube.load("textured_mesh/cube/BasicShapeMaterial_D.bmp");

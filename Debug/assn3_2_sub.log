@@ -1,4 +1,4 @@
-﻿  Game.cpp
+﻿  main.cpp
 C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\Angel.h(63,48): warning C4305: '초기화 중': 'double'에서 'GLfloat'(으)로 잘립니다.
 C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\mat.h(765,23): warning C4244: '=': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\mat.h(766,23): warning C4244: '=': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
@@ -7,8 +7,25 @@ C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_su
 C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\mat.h(790,31): warning C4244: '=': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\mat.h(793,39): warning C4244: '=': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\mat.h(810,39): warning C4244: '=': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\Game.h(54,22): warning C4305: '인수': 'double'에서 'GLfloat'(으)로 잘립니다.
 C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\Game.h(55,22): warning C4305: '인수': 'double'에서 'GLfloat'(으)로 잘립니다.
-C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\Game.h(56,22): warning C4305: '인수': 'double'에서 'GLfloat'(으)로 잘립니다.
-C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\Game.h(57,23): warning C4305: '인수': 'double'에서 'GLfloat'(으)로 잘립니다.
-C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\Game.h(58,18): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\Game.h(56,23): warning C4305: '인수': 'double'에서 'GLfloat'(으)로 잘립니다.
+C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\Game.h(57,18): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\main.cpp(14,16): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\main.cpp(41,14): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\main.cpp(42,13): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\main.cpp(43,12): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\main.cpp(44,12): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\main.cpp(46,17): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\main.cpp(47,18): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\main.cpp(48,16): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\main.cpp(49,16): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\main.cpp(206,37): warning C4305: '인수': 'double'에서 'GLfloat'(으)로 잘립니다.
+C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\main.cpp(210,46): warning C4305: '인수': 'double'에서 'const GLfloat'(으)로 잘립니다.
+C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\main.cpp(215,38): warning C4305: '인수': 'double'에서 'GLfloat'(으)로 잘립니다.
+C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\main.cpp(216,36): warning C4305: '인수': 'double'에서 'GLfloat'(으)로 잘립니다.
+C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\main.cpp(220,53): warning C4305: '인수': 'double'에서 'const GLfloat'(으)로 잘립니다.
+C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\main.cpp(226,38): warning C4305: '인수': 'double'에서 'GLfloat'(으)로 잘립니다.
+C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\main.cpp(230,46): warning C4305: '인수': 'double'에서 'const GLfloat'(으)로 잘립니다.
+C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\main.cpp(237,34): warning C4326: 'main'의 반환 형식이 'int'이어야 하는데 'void'입니다.
   assn3_2_sub.vcxproj -> C:\Users\owner\Documents\Heewoo\Graphics\assn\assn3\repos\assn3_2_sub\assn3_2_sub\bin\x86\assn3_2_sub.exe
