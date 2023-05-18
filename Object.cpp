@@ -1,21 +1,62 @@
 #include "Object.h"
 
 #include <time.h>
+#include <cstddef>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include "Game.h"
+
+
 using namespace std;
 extern Game* game;
 extern deque<float> starVis;
 
+vec3 purple = vec3(0.5, 0.0, 0.5);
+vec3 yellow = vec3(1.0, 1.0, 0.0);
+vec3 red = vec3(1.0, 0.0, 0.0);
+vec3 green = vec3(0.0, 1.0, 0.0);
+vec3 brown = vec3(0.647, 0.165, 0.165);
+
+glm::vec3 ConvertToVec3(vec3 vec)
+{
+	return glm::vec3(vec.x, vec.y, vec.z);
+}
+
+
+
 Object::Object() {
 	x = 0; y = 0; width = 0; height = 0;
+	/* og */
+	tangent_loc = game->tangent_loc;
+	bitangent_loc = game->bitangent_loc;
+	//color_loc = game->color_loc;
+	//alpha_loc = game->alpha_loc;
+	//textureMode_loc = game->textureMode_loc;
+	//normalMap_loc = game->normalMap_loc;
+
+	/* text attrib*/
 	ver_loc = game->ver_loc;
 	tex_loc = game->texture_loc;
-	color_loc = game->color_loc;
+	normal_loc = game->normal_loc;
 	model_loc = game->model_loc;
-	alpha_loc = game->alpha_loc;
+
+	/* text vs */
+	textureSamplerLoc = game->textureSamplerLoc;
+	ambientLightLoc = game->ambientLightLoc;
+	specularPowerLoc = game->specularPowerLoc;
+	materialLoc = game->materialLoc;
+	pointLightLoc = game->pointLightLoc;
+	directionalLightLoc = game->directionalLightLoc;
+
 	program = game->getProgram();
 	transform = Scale(game->scale) * mat4(1.0f);
 	alpha = 1.0f;
+
+	material = Material(
+		vec3(1.0f, 1.0f, 1.0f),
+		0,
+		0.5f
+	);
 }
 
 void Object::set(float _x, float _y, float _width, float _height) {
@@ -45,15 +86,47 @@ void Object::initPosition(float _x, float _y, vec3 modelCenter) {
 }
 
 void Object::draw_code(GLuint* buf) {
-	int sizeVer = buf[3] * sizeof(vec3);
-	int sizeCol = buf[3] * sizeof(vec3);
+	int sizeVer = buf[1] * sizeof(vec3);
+	int sizeCol = buf[1] * sizeof(vec3);
+	int sizeTex = buf[1] * sizeof(vec2);
+	int sizeNorm = buf[1] * sizeof(vec3);
+	
 	glBindBuffer(GL_ARRAY_BUFFER, buf[0]);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buf[1]);
+	// glVertexAttribPointer(color_loc, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeVer));
+	 glVertexAttribPointer(tangent_loc, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeVer + sizeCol + sizeTex + sizeNorm * 2));
+	 glVertexAttribPointer(bitangent_loc, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeVer + sizeCol + sizeTex + sizeNorm * 3));
+	// flat shading 
+	// glVertexAttribPointer(normal_loc, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeVer + sizeCol + sizeTex + sizeNorm)); 
+	// smooth shading
+
 	glVertexAttribPointer(ver_loc, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-	glVertexAttribPointer(color_loc, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeVer));
 	glVertexAttribPointer(tex_loc, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeVer + sizeCol));
+	glVertexAttribPointer(normal_loc, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeVer + sizeCol + sizeTex));
+
 	glUniformMatrix4fv(model_loc, 1, GL_TRUE, transform);
-	glUniform1f(glGetUniformLocation(program, "alpha"), alpha);
+	// glUniform1f(glGetUniformLocation(program, "alpha"), alpha);
+
+	/* */
+
+
+	glUniform3fv(glGetUniformLocation(game->program, "material.colour"), 1, material.colour);
+	glUniform1i(glGetUniformLocation(game->program, "material.useColour"), material.useColour);
+	glUniform1f(glGetUniformLocation(game->program, "material.reflectance"),  material.reflectance);
+
+	glUniform3fv(glGetUniformLocation(game->program, "pointLight.colour"), 1, glm::value_ptr(ConvertToVec3(game->pointLight.colour)));
+	glUniform3fv(glGetUniformLocation(game->program, "pointLight.position"), 1, glm::value_ptr(ConvertToVec3(game->pointLight.position)));
+	glUniform1f(glGetUniformLocation(game->program, "pointLight.intensity"), game->pointLight.intensity);
+	glUniform1f(glGetUniformLocation(game->program, "pointLight.att.constant"), game->pointLight.att.constant);
+	glUniform1f(glGetUniformLocation(game->program, "pointLight.att.linear"), game->pointLight.att.linear);
+	glUniform1f(glGetUniformLocation(game->program, "pointLight.att.exponent"), game->pointLight.att.exponent);
+
+	glUniform3fv(glGetUniformLocation(game->program, "directionalLight.colour"), 1, glm::value_ptr(ConvertToVec3(game->directionalLight.colour)));
+	glUniform3fv(glGetUniformLocation(game->program, "directionalLight.direction"), 1, glm::value_ptr(ConvertToVec3(game->directionalLight.direction)));
+	glUniform1f(glGetUniformLocation(game->program, "directionalLight.intensity"), game->directionalLight.intensity);
+
+	glUniform3fv(glGetUniformLocation(game->program, "col"), 1, vec3(1.0, 0.0, 1.0));
+	glUniform1i(glGetUniformLocation(game->program, "normalMapMode"), normalMapMode);
+
 	glDrawArrays(GL_TRIANGLES, 0, buf[1]);
 }
 
@@ -76,6 +149,11 @@ Character::Character() {
 	setSize(game->getModel()->characterInfo[0][1]);
 	initPosition(-0.7f, game->initBaseline - game->getModel()->cubeInfo[1].y / 2.0 + getHeight() / 2.0, game->getModel()->characterInfo[0][0]);
 
+	material = Material(
+		purple,
+		1,
+		0.5f
+	);
 
 }
 
@@ -85,6 +163,9 @@ void Character::draw() {
 	float baseline = game->baseline;
 	float initPosY = game->initBaseline - game->getModel()->cubeInfo[1].y / 2.0 + halfHeight;
 	float baselineChange = baseline - initPosY;
+
+	glUniform1i(textureMode_loc, 0);
+
 	/* frame selection */
 	frameSelection();
 
@@ -159,6 +240,8 @@ void Character::frameSelection() {
 	if (state != 0) {
 		frame = 0;
 	}
+
+	frame = 0;
 }
 
 void Character::setJumping() {
@@ -191,6 +274,13 @@ Cube::Cube() {
 
 	levels = { 1,1,1,2,1, 1, 0,  1, 2,3 };
 	
+
+	material = Material(
+		vec3(1.0f, 1.0f, 1.0f),
+		0,
+		0.5f
+	);
+
 	randomLevel();
 }
 
@@ -224,6 +314,7 @@ void Cube::randomLevel() {
 void Cube::draw() {
 	float width = getWidth();
 	float height = getHeight();
+	glUniform1i(textureMode_loc, 0);
 
 	stack<mat4>* mushMatStack = mushroom->getMatStack();
 	deque<bool>* mushIsDrawn = mushroom->getIsDrawn();
@@ -259,6 +350,10 @@ void Cube::draw() {
 	mushroom->setTransform(Translate(speed, 0.0f, 0.0f) * mushroom->getTransform());
 	mushMatStack->push(mushroom->getTransform());
 
+
+	glActiveTexture(GL_TEXTURE0);
+	game->getModel()->texture_cube.bind();
+
 	for (size_t i = 0; i < 20; i++) {
 		GLuint level = levels[i];
 		transform = Translate(width * i, 0.0, 0.0) * matStack.top();
@@ -267,10 +362,18 @@ void Cube::draw() {
 		mushroom->setTransform(Translate(width * i, 0.0, 0.0)* mushMatStack->top());
 		mushMatStack->push(mushroom->getTransform());
 
+		/* texture mapping*/
+		glActiveTexture(GL_TEXTURE0);
+		game->getModel()->texture_cube.bind();
+
 		for (size_t j = 0; j < level; j++) {
 			transform = Translate(0.0, height * j, 0.0) * matStack.top();
-			draw_code(buf);
+
+
+			draw_code(buf); // draw cube
 		}
+		/* unbind texture */
+		glBindTexture(GL_TEXTURE_2D, 0);
 		if (level != 0 && mushIsDrawn->at(i)) {
 			mushroom->setTransform(Translate(0.0, height * (level - 0.5) + mushroom->getHeight() / 2.0, 0.0) * mushMatStack->top());
 			mushroom->draw();
@@ -314,6 +417,14 @@ Star::Star() {
 		randomGen();
 	}
 
+	material = Material(
+		yellow,
+		1,
+		0.5f
+	);
+
+	/* MOVE 2 FIREBALL */
+	// normalMapMode = 1;
 }
 
 void Star::draw() {
@@ -321,9 +432,13 @@ void Star::draw() {
 	float height = getHeight();
 	speed = game->getOnGame() ? speed : 0.0;
 
-
 	matStack.push(transform);
 
+
+	///* MOVE 2 FIREBALL */
+	 //  glActiveTexture(GL_TEXTURE1);
+	  // game->getModel()->normalmap_fireball.bind();
+	
 	/* draw fireballs */
 	for (size_t i = 0; i < 4; i++) {
 		transform = Translate(starPos[i].x, 0.0, 0.0) * matStack.top();
@@ -342,6 +457,10 @@ void Star::draw() {
 
 		matStack.pop();
 	}
+
+	/* MOVE 2 FIREBALL */
+	/* unbind texture */
+	//  glBindTexture(GL_TEXTURE_2D, 0);
 
 	transform = matStack.top();
 	matStack.pop();
@@ -369,12 +488,27 @@ Fireball::Fireball() {
 	for (size_t i = 0; i < 5; i++) {
 		randomGen();
 	}
+	material = Material(
+		red,
+		0,
+		0.5f
+	);
+	normalMapMode = 1;
 }
 
 void Fireball::draw() {
 	float width = getWidth();
 	float height = getHeight();
 	speed = game->getOnGame() ? speed : 0.0;
+
+	glUniform1i(textureMode_loc, 1); 
+	glUniform1i(normalMap_loc, 0); // Map TEture0 to normalMap
+
+	glActiveTexture(GL_TEXTURE0);
+	game->getModel()->texture_fireball[0].bind();
+
+	glActiveTexture(GL_TEXTURE1);
+	game->getModel()->normalmap_fireball.bind();
 
 	matStack.push(transform);
 
@@ -395,8 +529,13 @@ void Fireball::draw() {
 		matStack.pop();
 	}
 
+	/* unbind texture */
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 	transform = matStack.top();
 	matStack.pop();
+
+	// Texture unbind
 }
 
 void Fireball::randomGen() {
@@ -416,6 +555,12 @@ Mushroom::Mushroom(float resetStart) {
 	initPosition(resetStart, game->baseline, game->getModel()->mushroomInfo[0]);
 
 	randomDrawn();
+
+	material = Material(
+		brown,
+		1,
+		0.5f
+	);
 }
 
 void Mushroom::draw() {

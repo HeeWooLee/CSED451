@@ -15,7 +15,8 @@ public:
 
     NormalMap normalmap_fireball;
 
-    Model();
+    Model(); 
+    vector<string> tokenize(string str, string delim);
     void load(const string&, GLuint*, vec3* , vec3);
 };
 

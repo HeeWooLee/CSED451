@@ -160,6 +160,10 @@
   <ItemGroup>
     <None Include="fshader.glsl" />
     <None Include="README.md" />
+    <None Include="shader.frag" />
+    <None Include="shader.vert" />
+    <None Include="text.f" />
+    <None Include="text.v" />
     <None Include="vshader.glsl" />
   </ItemGroup>
   <ItemGroup>

@@ -6,13 +6,36 @@
 
 using namespace std;
 
+struct Material
+{
+	vec3 colour;
+	int useColour;
+	float reflectance;
+	Material() {}
+	Material(const vec3& colourVal, int useColourVal, float reflectanceVal)
+		: colour(colourVal), useColour(useColourVal), reflectance(reflectanceVal) {
+	}
+};
+
 class Object {
 private:
 	float width, height, depth;
 
 protected:
 	float x, y;
-	GLuint ver_loc, tex_loc, model_loc, color_loc, alpha_loc,program;
+	GLuint ver_loc, tex_loc, normal_loc, tangent_loc, bitangent_loc,textureMode_loc, normalMap_loc, model_loc, color_loc, alpha_loc,program;
+	
+	Material material;
+
+	/* tex */
+	GLint textureSamplerLoc;
+	GLint ambientLightLoc;
+	GLint specularPowerLoc;
+	GLint materialLoc;
+	GLint pointLightLoc;
+	GLint directionalLightLoc;
+
+	
 	GLuint sizeVer;
 	GLuint* buf;
 	GLuint sizeLineVer, sizeLineCol;
@@ -21,7 +44,8 @@ protected:
 	stack<mat4> matStack;
 	float speed;
 	int sizeDraw, sizeLineDraw;
-	int baseSize;
+	int baseSize; 
+	int normalMapMode = 0;
 
 public:
 	Object();

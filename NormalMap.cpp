@@ -24,8 +24,6 @@ bool NormalMap::load(const char* fn) {
 	//	cout << endl;
 	//	return false;
 	//}
-	cout << "w: " << w << "h: " << h << endl;
-	cout << "size of pixels: " << pixels.size() << endl;
 		 
 	glGenTextures(1, &buf);
 	glActiveTexture(GL_TEXTURE1);
